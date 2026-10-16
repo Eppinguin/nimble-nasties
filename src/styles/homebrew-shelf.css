@@ -19,8 +19,10 @@
   color: var(--ink-2);
   font: 700 15px var(--font-ui);
 }
-.library-tabs button:hover {
-  color: var(--ink);
+@media (hover: hover) {
+  .library-tabs button:hover {
+    color: var(--ink);
+  }
 }
 .library-tabs button[aria-selected='true'] {
   background: var(--segment-on);
@@ -92,8 +94,10 @@
 .brew-select:nth-child(2) select {
   padding-left: 60px;
 }
-.brew-select select:hover {
-  border-color: var(--ink-3);
+@media (hover: hover) {
+  .brew-select select:hover {
+    border-color: var(--ink-3);
+  }
 }
 .brew-select select:focus-visible {
   border-color: var(--signal-line);
@@ -113,9 +117,11 @@
   font-size: 15px;
   font-weight: 700;
 }
-.brew-select-mode:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .brew-select-mode:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .brew-selecting {
   justify-content: space-between;
@@ -139,8 +145,10 @@
   color: var(--sheet);
   padding: 0 14px;
 }
-.brew-done:hover {
-  background: var(--ink-2);
+@media (hover: hover) {
+  .brew-done:hover {
+    background: var(--ink-2);
+  }
 }
 
 .brew-group {
@@ -237,10 +245,15 @@
   height: 40px;
   color: var(--ink-3);
 }
-.brew-tool:hover,
 .brew-tool[aria-expanded='true'] {
   background: var(--sheet-3);
   color: var(--ink);
+}
+@media (hover: hover) {
+  .brew-tool:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .brew-row .lib-add {
   margin-left: 2px;
@@ -278,8 +291,10 @@
   font-size: 15px;
   font-weight: 700;
 }
-.brew-menu button:hover {
-  border-color: var(--ink);
+@media (hover: hover) {
+  .brew-menu button:hover {
+    border-color: var(--ink);
+  }
 }
 .brew-menu svg {
   color: var(--ink-2);
@@ -301,8 +316,10 @@
 .brew-menu .brew-delete svg {
   color: currentColor;
 }
-.brew-menu .brew-delete:hover {
-  border-color: var(--laststand);
+@media (hover: hover) {
+  .brew-menu .brew-delete:hover {
+    border-color: var(--laststand);
+  }
 }
 
 .brew-list.is-selecting .library-item {

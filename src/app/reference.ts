@@ -1,5 +1,5 @@
 /** Reference data for the rules dialog, the library's quick filters and the About dialog. */
-export const QUICK_LABEL = { all: 'All', standard: 'Standard', minion: 'Minions', legendary: 'Legendary', fits: 'Fits budget' } as const;
+export const QUICK_LABEL = { all: 'All', fielded: 'In encounter', standard: 'Standard', minion: 'Minions', legendary: 'Legendary', fits: 'Fits budget' } as const;
 
 // The rules dialog's reference; armor and difficulty tiers come from the encounter's rule set.
 // Encounter guidance is GMG v1 pp. 24–42 (also on nimble.nexus/rules).

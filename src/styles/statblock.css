@@ -115,8 +115,10 @@
   white-space: nowrap;
   transition: background-color 0.12s;
 }
-.roll-pill:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .roll-pill:hover {
+    background: var(--signal-hover);
+  }
 }
 .roll-pill:active {
   background: var(--signal);
@@ -154,7 +156,6 @@
   text-transform: uppercase;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
   transition:
     background-color 0.12s,
     color 0.12s;
@@ -165,13 +166,15 @@
 .edge-adv {
   border-left: 1px solid var(--rule-strong);
 }
-.edge-dis:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--laststand) 14%, var(--sheet-2));
-  color: var(--laststand);
-}
-.edge-adv:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--easy) 16%, var(--sheet-2));
-  color: var(--easy);
+@media (hover: hover) {
+  .edge-dis:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--laststand) 14%, var(--sheet-2));
+    color: var(--laststand);
+  }
+  .edge-adv:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--easy) 16%, var(--sheet-2));
+    color: var(--easy);
+  }
 }
 .edge-btn:active:not(:disabled) {
   transform: none;
@@ -203,9 +206,11 @@
   font-variant-numeric: tabular-nums;
   vertical-align: baseline;
 }
-.inline-roll:hover {
-  background: var(--signal);
-  color: var(--on-signal);
+@media (hover: hover) {
+  .inline-roll:hover {
+    background: var(--signal);
+    color: var(--on-signal);
+  }
 }
 .inline-summon {
   display: inline;
@@ -233,9 +238,11 @@
   font-size: 12px;
   vertical-align: 1px;
 }
-.inline-summon:hover {
-  background: var(--signal);
-  color: var(--on-signal);
+@media (hover: hover) {
+  .inline-summon:hover {
+    background: var(--signal);
+    color: var(--on-signal);
+  }
 }
 .summon-tail {
   white-space: nowrap;

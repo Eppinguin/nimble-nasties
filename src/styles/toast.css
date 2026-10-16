@@ -37,6 +37,8 @@
   font-weight: 800;
   white-space: nowrap;
 }
-.toast-undo:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .toast-undo:hover {
+    background: var(--signal-hover);
+  }
 }

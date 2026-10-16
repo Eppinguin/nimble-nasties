@@ -1,7 +1,7 @@
 import { Fragment } from 'preact';
 import { useMemo } from 'preact/hooks';
 import type { Ref } from 'preact';
-import { Anvil, FileDown, FileUp, Info, Plus, Search, X } from 'lucide-preact';
+import { Anvil, FileDown, FileUp, Info, Search, X } from 'lucide-preact';
 import type { Monster } from '../lib/types.ts';
 import { describeLevel, groupMatches, highlight, matchMonster, parseQuery, passesQuick, searchMonsters } from '../lib/browse.ts';
 import { ORIGIN_LABEL, encountersUsing, groupHomebrew, originOf } from '../lib/homebrew.ts';
@@ -12,10 +12,11 @@ import type { NexusTarget } from '../lib/nexus.ts';
 import { sharedPayload } from '../lib/share.ts';
 import { useApp } from '../app/context.ts';
 import { QUICK_LABEL } from '../app/reference.ts';
-import { kindLabel, levelOrMinion } from '../app/ui.ts';
+import { kindLabel, levelOrMinion, scrollBehavior } from '../app/ui.ts';
 import { HomebrewShelf } from './HomebrewShelf.tsx';
 import type { HomebrewTools } from './HomebrewShelf.tsx';
 import { PartySetup } from './PartySetup.tsx';
+import { FieldStepper } from './FieldStepper.tsx';
 import type { Library, LibraryTab } from './useLibrary.ts';
 
 type Stats = ReturnType<typeof encounterStats>;
@@ -56,11 +57,12 @@ export function LibraryDrawer({
   onNexus: (target: NexusTarget) => void;
   tools: HomebrewTools;
 }) {
-  const { state, encounter, addMonster, dragStart, clearDrag } = useApp();
+  const { state, encounter, dragStart, clearDrag } = useApp();
   const { view, setView, setTab, query, setQuery, quick, setQuick } = lib;
   const levelsLeft = stats.budget - stats.spent;
   const parsed = useMemo(() => parseQuery(query), [query]);
-  const matches = useMemo(() => searchMonsters(bestiary, parsed, quick, levelsLeft), [bestiary, parsed, quick, levelsLeft]);
+  const fieldedIds = useMemo(() => new Set(encounter.cards.map((c) => c.monsterId)), [encounter.cards]);
+  const matches = useMemo(() => searchMonsters(bestiary, parsed, quick, levelsLeft, fieldedIds), [bestiary, parsed, quick, levelsLeft, fieldedIds]);
   const shelves = useMemo(() => groupMatches(matches, view.view, parsed.words.length > 0), [matches, view.view, parsed]);
   // Matches the quick filter is hiding, offered back on an empty result.
   const hiddenByQuick = useMemo(() => (quick === 'all' || matches.length ? 0 : bestiary.filter((m) => matchMonster(m, parsed)).length), [quick, matches.length, bestiary, parsed]);
@@ -72,8 +74,8 @@ export function LibraryDrawer({
   const brewShown = useMemo(() => {
     // Origin and author count as words here too, so "nexus" or a creator's name finds their monsters.
     const extra = (m: Monster) => `${ORIGIN_LABEL[originOf(m)]} ${m.author ?? ''}`.toLowerCase();
-    return state.customMonsters.filter((m) => passesQuick(m, quick, levelsLeft) && (matchMonster(m, parsed) || (parsed.words.length && parsed.words.every((w) => extra(m).includes(w)) && matchMonster(m, { ...parsed, words: [] }))));
-  }, [state.customMonsters, parsed, quick, levelsLeft]);
+    return state.customMonsters.filter((m) => passesQuick(m, quick, levelsLeft, fieldedIds) && (matchMonster(m, parsed) || (parsed.words.length && parsed.words.every((w) => extra(m).includes(w)) && matchMonster(m, { ...parsed, words: [] }))));
+  }, [state.customMonsters, parsed, quick, levelsLeft, fieldedIds]);
   const brewGroups = useMemo(() => groupHomebrew(brewShown, view.sort, view.group), [brewShown, view.sort, view.group]);
   const brewUses = useMemo(() => new Map(state.customMonsters.map((m) => [m.id, encountersUsing(m.id, state.encounters)])), [state.customMonsters, state.encounters]);
   const filtering = Boolean(query.trim()) || quick !== 'all';
@@ -116,12 +118,19 @@ export function LibraryDrawer({
       onNexus(nexus);
     } else setQuery(value);
   }
-  /** One tap narrows, a second tap lets go. Fits budget keeps standard monsters that stay at or under Hard. */
+  /** One tap narrows, a second tap lets go. Fits budget keeps standard monsters that stay at or under Hard;
+   * In encounter lists what is already fielded, so a phone can trim the encounter without leaving the drawer. */
   function quickFilters() {
     const left = Math.max(0, levelsLeft),
       shown = budgetLeft(levelsLeft);
     return (
       <div class="lib-quick" role="group" aria-label="Show only">
+        {(fieldedIds.size > 0 || quick === 'fielded') && (
+          <button class="lib-quick-fielded" aria-pressed={quick === 'fielded'} title="Only the monsters already in this encounter" onClick={() => setQuick((q) => (q === 'fielded' ? 'all' : 'fielded'))}>
+            {QUICK_LABEL.fielded}
+            <span class="count">{fieldedIds.size}</span>
+          </button>
+        )}
         {(['standard', 'minion', 'legendary', 'fits'] as const).map((key) => {
           const spent = key === 'fits' && left < 0.25 && quick !== 'fits';
           return (
@@ -150,7 +159,16 @@ export function LibraryDrawer({
       <div class="sidebar-head">
         <div class="library-drawer-title">
           <strong>Add monsters</strong>
-          <small>Party · difficulty · bestiary</small>
+          <small class="drawer-head-hint">Party · difficulty · bestiary</small>
+          {/* Phones and short screens scroll the budget away; this keeps it in sight and brings it back. */}
+          <button type="button" class="drawer-head-difficulty" data-difficulty={stats.difficulty.color} onClick={(e) => (e.currentTarget.closest('.add-drawer') as HTMLElement | null)?.scrollTo({ top: 0, behavior: scrollBehavior() })}>
+            <span class="difficulty-dot" aria-hidden="true" />
+            <b>{stats.difficulty.label}</b>
+            <span>
+              {Number(stats.spent.toFixed(2))}/{stats.budget} levels
+            </span>
+            <span class="sr-only">. Show party and budget</span>
+          </button>
         </div>
         <button class="icon-btn panel-collapse" title="Close monster library" aria-label="Close monster library" onClick={onClose}>
           <X size={18} />
@@ -197,15 +215,18 @@ export function LibraryDrawer({
           </button>
         ))}
       </div>
-      <label class="search-field">
-        <Search size={16} />
-        <input ref={searchRef} aria-label="Search monsters" placeholder={view.tab === 'homebrew' ? 'Search your homebrew, or paste a link…' : 'Name, ability, level, or a link…'} value={query} onKeyDown={searchKeys} onInput={(e) => searchInput(e.currentTarget.value)} />
-        <kbd>/</kbd>
-      </label>
-      {(view.tab === 'bestiary' || state.customMonsters.length > 0) && quickFilters()}
+      {/* On phones the drawer scrolls as one column and this pins under the name bar. */}
+      <div class="library-find">
+        <label class="search-field">
+          <Search size={16} />
+          <input ref={searchRef} aria-label="Search monsters" placeholder={view.tab === 'homebrew' ? 'Search your homebrew, or paste a link…' : 'Name, ability, level, or a link…'} value={query} onKeyDown={searchKeys} onInput={(e) => searchInput(e.currentTarget.value)} />
+          <kbd>/</kbd>
+        </label>
+        {(view.tab === 'bestiary' || state.customMonsters.length > 0) && quickFilters()}
+      </div>
       <div id="library-panel" class="library-panel" role="tabpanel" aria-labelledby={`library-tab-${view.tab}`}>
         {view.tab === 'homebrew' ? (
-          <HomebrewShelf lib={lib} groups={brewGroups} parsed={parsed} uses={brewUses} listKeys={listKeys} onClear={clearBrowse} tools={tools} />
+          <HomebrewShelf lib={lib} groups={brewGroups} parsed={parsed} uses={brewUses} fielded={fielded} listKeys={listKeys} onClear={clearBrowse} tools={tools} />
         ) : (
           <>
             <div class="lib-summary">
@@ -249,7 +270,13 @@ export function LibraryDrawer({
               {!matches.length && (
                 <div class="empty-library">
                   <p>
-                    No {quick === 'all' ? 'monsters' : QUICK_LABEL[quick].toLowerCase()} match{query.trim() && <> “{query.trim()}”</>}.
+                    {quick === 'fielded' && !query.trim() ? (
+                      'Nothing in this encounter yet.'
+                    ) : (
+                      <>
+                        No {quick === 'all' ? 'monsters' : quick === 'fielded' ? 'monsters in this encounter' : QUICK_LABEL[quick].toLowerCase()} match{query.trim() && <> “{query.trim()}”</>}.
+                      </>
+                    )}
                   </p>
                   {hiddenByQuick ? (
                     <button class="text-btn" onClick={() => setQuick('all')}>
@@ -291,14 +318,7 @@ export function LibraryDrawer({
                             </span>
                           </span>
                         </button>
-                        {here > 0 && (
-                          <span class="lib-fielded" title={`${here} in this encounter`} aria-label={`${here} in this encounter`}>
-                            ×{here}
-                          </span>
-                        )}
-                        <button class="lib-add" aria-label={`Add ${monster.name}`} title={`Add ${monster.name}`} onClick={() => addMonster(monster)}>
-                          <Plus size={16} />
-                        </button>
+                        <FieldStepper monster={monster} here={here} />
                       </div>
                     );
                   })}

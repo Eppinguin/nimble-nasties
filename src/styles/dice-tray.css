@@ -34,9 +34,11 @@
 .rolls-panel > header .icon-btn {
   color: var(--bar-soft);
 }
-.rolls-panel > header .icon-btn:hover {
-  background: var(--bar-2);
-  color: var(--bar-text);
+@media (hover: hover) {
+  .rolls-panel > header .icon-btn:hover {
+    background: var(--bar-2);
+    color: var(--bar-text);
+  }
 }
 .roll-controls {
   display: flex;

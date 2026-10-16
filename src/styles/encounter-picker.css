@@ -74,8 +74,10 @@
   align-items: center;
   border-radius: 6px;
 }
-.encounter-item:hover {
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .encounter-item:hover {
+    background: var(--sheet-2);
+  }
 }
 .encounter-item.selected {
   background: var(--signal-wash);
@@ -118,10 +120,15 @@
   border-radius: 6px;
   color: var(--ink-3);
 }
-.encounter-row-more:hover,
 .encounter-row-more[aria-expanded='true'] {
   background: var(--sheet-3);
   color: var(--ink);
+}
+@media (hover: hover) {
+  .encounter-row-more:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .encounter-row-menu {
   flex-basis: 100%;
@@ -143,9 +150,11 @@
   font-weight: 600;
   text-align: left;
 }
-.encounter-row-menu > button:hover {
-  border-color: var(--rule-strong);
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .encounter-row-menu > button:hover {
+    border-color: var(--rule-strong);
+    background: var(--sheet-2);
+  }
 }
 .encounter-row-menu .picker-danger {
   color: var(--laststand);
@@ -174,8 +183,10 @@
   height: 40px;
   border-radius: 5px;
 }
-.picker-rename button:hover {
-  background: var(--sheet-3);
+@media (hover: hover) {
+  .picker-rename button:hover {
+    background: var(--sheet-3);
+  }
 }
 .picker-empty {
   padding: 16px 10px;
@@ -206,12 +217,16 @@
   background: var(--signal);
   color: var(--on-signal);
 }
-.picker-new:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .picker-new:hover {
+    background: var(--signal-hover);
+  }
 }
 .picker-import {
   border: 1px solid var(--rule-strong);
 }
-.picker-import:hover {
-  border-color: var(--ink-3);
+@media (hover: hover) {
+  .picker-import:hover {
+    border-color: var(--ink-3);
+  }
 }

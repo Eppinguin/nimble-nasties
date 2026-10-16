@@ -14,8 +14,10 @@
   border-bottom: 1px solid var(--rule);
   transition: background-color 0.2s;
 }
-.creature-row:hover {
-  background: color-mix(in srgb, var(--sheet-2) 60%, transparent);
+@media (hover: hover) {
+  .creature-row:hover {
+    background: color-mix(in srgb, var(--sheet-2) 60%, transparent);
+  }
 }
 .turn-box {
   grid-area: turn;
@@ -32,8 +34,10 @@
     border-color 0.15s,
     transform 0.15s var(--ease-out);
 }
-.turn-box:hover {
-  border-color: var(--ink-3);
+@media (hover: hover) {
+  .turn-box:hover {
+    border-color: var(--ink-3);
+  }
 }
 .turn-box[aria-pressed='true'] {
   background: var(--ink);
@@ -78,8 +82,10 @@
     border-color 0.15s,
     background-color 0.15s;
 }
-.creature-name:hover {
-  border-color: var(--rule);
+@media (hover: hover) {
+  .creature-name:hover {
+    border-color: var(--rule);
+  }
 }
 .creature-name:focus {
   border-color: var(--signal-line);
@@ -129,8 +135,10 @@
     background-color 0.15s,
     color 0.2s;
 }
-.hp-command input:hover {
-  border-color: var(--rule-strong);
+@media (hover: hover) {
+  .hp-command input:hover {
+    border-color: var(--rule-strong);
+  }
 }
 .hp-command input:focus {
   width: 6ch;
@@ -255,11 +263,13 @@
 .condition-chip svg {
   color: var(--ink-3);
 }
-.condition-chip:hover {
-  border-color: var(--ink-3);
-}
-.condition-chip:hover svg {
-  color: var(--ink);
+@media (hover: hover) {
+  .condition-chip:hover {
+    border-color: var(--ink-3);
+  }
+  .condition-chip:hover svg {
+    color: var(--ink);
+  }
 }
 
 .condition-trigger,
@@ -296,14 +306,19 @@
 .is-one-hp .hp-ruler {
   display: none;
 }
-.condition-trigger:hover,
-.row-menu:hover,
 .condition-trigger[aria-expanded='true'] {
   background: var(--sheet-3);
   color: var(--ink);
 }
-.row-menu:hover {
-  color: var(--laststand);
+@media (hover: hover) {
+  .condition-trigger:hover,
+  .row-menu:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
+  .row-menu:hover {
+    color: var(--laststand);
+  }
 }
 
 .condition-picker {
@@ -344,8 +359,10 @@
   font-size: 15px;
   font-weight: 600;
 }
-.condition-picker > button:hover {
-  border-color: var(--ink);
+@media (hover: hover) {
+  .condition-picker > button:hover {
+    border-color: var(--ink);
+  }
 }
 .condition-picker > .picker-remove {
   display: inline-flex;
@@ -356,6 +373,8 @@
   background: transparent;
   color: var(--laststand);
 }
-.condition-picker > .picker-remove:hover {
-  border-color: var(--laststand);
+@media (hover: hover) {
+  .condition-picker > .picker-remove:hover {
+    border-color: var(--laststand);
+  }
 }

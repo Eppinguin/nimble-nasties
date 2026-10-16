@@ -47,12 +47,34 @@
   color: #bcae9c;
   font-size: 14px;
 }
+.drawer-head-difficulty {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  margin-left: -6px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #bcae9c;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.drawer-head-difficulty b {
+  color: #fffaf0;
+  font-weight: 700;
+}
+@media (hover: hover) {
+  .drawer-head-difficulty:hover {
+    background: #2a231d;
+  }
+}
 .panel-collapse {
   color: #e6dccb;
 }
-.panel-collapse:hover {
-  background: #2a231d;
-  color: #fffaf0;
+@media (hover: hover) {
+  .panel-collapse:hover {
+    background: #2a231d;
+    color: #fffaf0;
+  }
 }
 
 .drawer-overview {
@@ -70,9 +92,11 @@
   border-radius: 5px;
   color: var(--ink-3);
 }
-.drawer-info:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .drawer-info:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .drawer-title {
   display: flex;
@@ -92,9 +116,11 @@
   border-radius: 5px;
   color: var(--ink-3);
 }
-.drawer-title button:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .drawer-title button:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .drawer-budget-head {
   display: flex;
@@ -182,9 +208,11 @@
   transition: transform 0.2s var(--ease-out);
   color: var(--ink-3);
 }
-.drawer-party-toggle:hover {
-  color: var(--ink);
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .drawer-party-toggle:hover {
+    color: var(--ink);
+    background: var(--sheet-2);
+  }
 }
 .drawer-party-controls {
   padding: 8px 0 2px;
@@ -224,6 +252,9 @@
   color: var(--signal-text);
 }
 
+.library-find {
+  display: contents;
+}
 .search-field {
   display: flex;
   align-items: center;
@@ -264,8 +295,10 @@
   -webkit-appearance: none;
   cursor: pointer;
 }
-.form-field select:hover {
-  border-color: var(--ink-3);
+@media (hover: hover) {
+  .form-field select:hover {
+    border-color: var(--ink-3);
+  }
 }
 .form-field select:focus {
   border-color: var(--signal-line);
@@ -286,8 +319,10 @@
   border-radius: 6px;
   cursor: grab;
 }
-.library-item:hover {
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .library-item:hover {
+    background: var(--sheet-2);
+  }
 }
 .lib-main {
   flex: 1;
@@ -326,13 +361,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* One line, as on the homebrew shelf: a long family truncates, tags and armor never do. */
 .lib-text > span {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 2px 6px;
+  min-width: 0;
   color: var(--ink-3);
   font-size: 14px;
+  white-space: nowrap;
+}
+.lib-family {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lib-text > span > :is(.kind-tag, .lib-armor) {
+  flex-shrink: 0;
 }
 .lib-text .kind-tag {
   font-size: 10px;
@@ -361,9 +406,11 @@
     background-color 0.12s,
     color 0.12s;
 }
-.lib-add:hover {
-  background: var(--signal);
-  color: var(--on-signal);
+@media (hover: hover) {
+  .lib-add:hover {
+    background: var(--signal);
+    color: var(--on-signal);
+  }
 }
 .empty-library {
   display: flex;
@@ -418,9 +465,11 @@
     border-color 0.12s,
     color 0.12s;
 }
-.lib-quick button:hover:not(:disabled, [aria-pressed='true']) {
-  border-color: var(--ink-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .lib-quick button:hover:not(:disabled, [aria-pressed='true']) {
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
 }
 .lib-quick button[aria-pressed='true'] {
   border-color: var(--ink);
@@ -487,8 +536,10 @@
   color: var(--ink-3);
   font: 700 14px var(--font-ui);
 }
-.lib-views button:hover {
-  color: var(--ink);
+@media (hover: hover) {
+  .lib-views button:hover {
+    color: var(--ink);
+  }
 }
 .lib-views button[aria-pressed='true'] {
   color: var(--ink);
@@ -527,16 +578,64 @@
   flex-shrink: 0;
   max-width: 55%;
 }
-.lib-fielded {
+/* Add, or once fielded, one joined tab: − count +. */
+.lib-stepper {
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
-  min-width: 26px;
+  border-radius: 6px;
+}
+.lib-stepper[data-here] {
+  background: var(--sheet-3);
+}
+.lib-remove {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 40px;
+  border-radius: 6px 0 0 6px;
   color: var(--ink-2);
-  font-size: 14px;
+  transition:
+    background-color 0.12s,
+    color 0.12s;
+}
+@media (hover: hover) {
+  .lib-remove:hover {
+    background: color-mix(in srgb, var(--laststand) 14%, var(--sheet-3));
+    color: var(--laststand);
+  }
+}
+.lib-fielded {
+  min-width: 24px;
+  color: var(--ink);
+  font-size: 17px;
   font-weight: 800;
+  line-height: 40px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
+.lib-stepper[data-here] .lib-add {
+  margin-left: 2px;
+}
+.lib-quick .count {
+  min-width: 20px;
+  padding: 0 5px;
+  border-radius: 3px;
+  background: var(--sheet-3);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.lib-quick button[aria-pressed='true'] .count {
+  background: var(--sheet);
+  color: var(--ink);
+}
 @media (pointer: coarse) {
+  .lib-remove {
+    width: 40px;
+  }
   .lib-quick button,
   .lib-views button {
     height: 40px;
@@ -562,9 +661,11 @@
   font-size: 15px;
   font-weight: 700;
 }
-.library-footer button:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .library-footer button:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .mobile-scrim {
   position: fixed;

@@ -36,6 +36,23 @@ test('quick filters: kinds, and standard monsters that still fit the budget', ()
   assert.ok(find('', 'fits', 2).every((m) => m.monster.kind === 'standard' && m.monster.level <= 2));
 });
 
+test('the in-encounter filter keeps only fielded monsters, and still searches within them', () => {
+  const goblin = find('goblin').find((m) => m.monster.name === 'Goblin')!.monster;
+  const ogre = officialCatalog.find((m) => m.kind === 'standard' && m.id !== goblin.id)!;
+  const fielded = new Set([goblin.id, ogre.id]);
+  assert.deepEqual(
+    searchMonsters(officialCatalog, parseQuery(''), 'fielded', 99, fielded)
+      .map((m) => m.monster.id)
+      .sort(),
+    [...fielded].sort(),
+  );
+  assert.deepEqual(
+    searchMonsters(officialCatalog, parseQuery('goblin'), 'fielded', 99, fielded).map((m) => m.monster.id),
+    [goblin.id],
+  );
+  assert.equal(searchMonsters(officialCatalog, parseQuery(''), 'fielded', 99).length, 0);
+});
+
 test('family shelves fold strays and legendaries together', () => {
   const groups = groupMatches(find(''), 'family', false);
   assert.ok(groups.every((g) => g.matches.length > 1 || g.key === 'Legendary' || g.key === 'Lone monsters'));

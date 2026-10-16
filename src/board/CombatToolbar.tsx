@@ -79,7 +79,7 @@ export function CombatToolbar({
             <strong class="roll-total">{receipt.summary}</strong>
           </>
         ) : (
-          'Dice'
+          <span class="roll-word">Dice</span>
         )}
       </button>
     </section>

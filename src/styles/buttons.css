@@ -21,8 +21,10 @@
   background: var(--signal);
   color: var(--on-signal);
 }
-.solid:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .solid:hover {
+    background: var(--signal-hover);
+  }
 }
 /* Ink on brand orange sits at mid luminance; grayscale smoothing thins the stems
  * until labels shimmer. Let the platform darken them, and give icons the same heft. */
@@ -52,9 +54,11 @@
   background: var(--sheet);
   color: var(--ink);
 }
-.outline:hover {
-  border-color: var(--ink-3);
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .outline:hover {
+    border-color: var(--ink-3);
+    background: var(--sheet-2);
+  }
 }
 .compact {
   height: 40px;
@@ -72,7 +76,9 @@
     background-color 0.15s,
     color 0.15s;
 }
-.icon-btn:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .icon-btn:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }

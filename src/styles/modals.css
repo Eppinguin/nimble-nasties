@@ -50,9 +50,11 @@
 .modal-head .icon-btn {
   color: var(--bar-soft);
 }
-.modal-head .icon-btn:hover {
-  background: var(--bar-2);
-  color: var(--bar-text);
+@media (hover: hover) {
+  .modal-head .icon-btn:hover {
+    background: var(--bar-2);
+    color: var(--bar-text);
+  }
 }
 .preview-modal .modal-head {
   margin: 0;
@@ -209,9 +211,11 @@
   background: var(--sheet);
   color: var(--ink);
 }
-.stepper-btn:hover:not(:disabled) {
-  border-color: var(--ink-3);
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .stepper-btn:hover:not(:disabled) {
+    border-color: var(--ink-3);
+    background: var(--sheet-2);
+  }
 }
 .stepper-btn:disabled {
   opacity: 0.38;
@@ -245,9 +249,11 @@
   font-size: 15px;
   font-weight: 700;
 }
-.party-details-toggle:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .party-details-toggle:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 .party-details-toggle svg {
   transition: transform 0.2s var(--ease-out);
@@ -302,9 +308,11 @@
   color: var(--ink-2);
   border-radius: 5px;
 }
-.level-stepper button:hover:not(:disabled) {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .level-stepper button:hover:not(:disabled) {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .level-stepper button:focus-visible {
   outline: none;
@@ -430,8 +438,10 @@
 .rules-copy .printing-option + .printing-option {
   border-top: 1px solid var(--rule);
 }
-.rules-copy .printing-option:hover {
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .rules-copy .printing-option:hover {
+    background: var(--sheet-2);
+  }
 }
 .rules-copy .printing-option.on {
   background: var(--sheet-3);
@@ -495,8 +505,10 @@
   color: var(--ink-2);
   font: 700 15px var(--font-ui);
 }
-.rules-tabs button:hover {
-  color: var(--ink);
+@media (hover: hover) {
+  .rules-tabs button:hover {
+    color: var(--ink);
+  }
 }
 .rules-tabs button[aria-selected='true'] {
   background: var(--segment-on);
@@ -884,8 +896,10 @@
   color: var(--ink-2);
   font-weight: 700;
 }
-.about-copy .about-source a:hover {
-  color: var(--ink);
+@media (hover: hover) {
+  .about-copy .about-source a:hover {
+    color: var(--ink);
+  }
 }
 .about-copy h3 {
   margin: 22px 0 4px;
@@ -926,8 +940,10 @@
   font-size: 14px;
   line-height: 1.35;
 }
-.other-tools a:hover strong {
-  color: var(--signal-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .other-tools a:hover strong {
+    color: var(--signal-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }

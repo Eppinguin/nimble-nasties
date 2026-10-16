@@ -47,8 +47,10 @@
     opacity 0.15s,
     transform 0.15s var(--ease-out);
 }
-.board-nav:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .board-nav:hover {
+    opacity: 1;
+  }
 }
 .board-nav.prev {
   left: 6px;
@@ -56,11 +58,13 @@
 .board-nav.next {
   right: 6px;
 }
-.board-nav.prev:hover {
-  transform: translateX(-2px);
-}
-.board-nav.next:hover {
-  transform: translateX(2px);
+@media (hover: hover) {
+  .board-nav.prev:hover {
+    transform: translateX(-2px);
+  }
+  .board-nav.next:hover {
+    transform: translateX(2px);
+  }
 }
 .run-board {
   position: relative;
@@ -107,8 +111,10 @@
   --bar-soft: var(--ink-3);
   border-bottom-color: var(--rule-strong);
 }
-.monster-lane[data-spent] .lane-remove:hover {
-  color: var(--laststand);
+@media (hover: hover) {
+  .monster-lane[data-spent] .lane-remove:hover {
+    color: var(--laststand);
+  }
 }
 .monster-lane[data-spent] .stat-armor,
 .monster-lane[data-spent] .stat-armor svg,
@@ -170,17 +176,23 @@
 }
 .lane-grip {
   cursor: grab;
+  /* Touch drags start with a long press; keep it from selecting or opening the callout. */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 .lane-grip:active {
   cursor: grabbing;
 }
-.lane-grip:hover,
-.lane-remove:hover {
-  background: var(--bar-2);
-  color: var(--bar-text);
-}
-.lane-remove:hover {
-  color: #ff8a7a;
+@media (hover: hover) {
+  .lane-grip:hover,
+  .lane-remove:hover {
+    background: var(--bar-2);
+    color: var(--bar-text);
+  }
+  .lane-remove:hover {
+    color: #ff8a7a;
+  }
 }
 
 .statline {

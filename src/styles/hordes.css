@@ -40,8 +40,10 @@
     border-color 0.15s,
     background-color 0.15s;
 }
-.pack-name:hover {
-  border-color: var(--rule);
+@media (hover: hover) {
+  .pack-name:hover {
+    border-color: var(--rule);
+  }
 }
 .pack-name:focus {
   border-color: var(--signal-line);
@@ -101,8 +103,10 @@
 .pack-hit::placeholder {
   color: var(--ink-3);
 }
-.pack-hit:hover:not(:disabled) {
-  border-color: var(--rule-strong);
+@media (hover: hover) {
+  .pack-hit:hover:not(:disabled) {
+    border-color: var(--rule-strong);
+  }
 }
 .pack-hit:focus {
   border-color: var(--signal-line);
@@ -150,8 +154,10 @@
   font-size: 15px;
   font-weight: 700;
 }
-.pack-menu button:hover {
-  border-color: var(--ink);
+@media (hover: hover) {
+  .pack-menu button:hover {
+    border-color: var(--ink);
+  }
 }
 .pack-menu .pack-split {
   margin-left: auto;
@@ -177,15 +183,21 @@
   font-size: 15px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  touch-action: manipulation;
+  /* A touch drag starts with a long press; without these it selects the number
+   * (or opens the iOS callout) instead of lifting the token. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   transition:
     background-color 0.15s,
     border-color 0.15s,
     color 0.15s,
     opacity 0.15s;
 }
-.horde-token:hover {
-  border-color: var(--ink-3);
+@media (hover: hover) {
+  .horde-token:hover {
+    border-color: var(--ink-3);
+  }
 }
 /* Ready minions stand out; those that acted sink into the sheet; the fallen are a dashed skull. */
 .horde-token[data-state='acted'] {
@@ -272,10 +284,12 @@
   background: var(--signal-wash);
   color: var(--signal-text);
 }
-.horde-roll[data-extra] .roll-pill:hover,
-.monster-lane[data-spent] .roll-pill:not(:disabled):hover {
-  background: var(--signal);
-  color: var(--on-signal);
+@media (hover: hover) {
+  .horde-roll[data-extra] .roll-pill:hover,
+  .monster-lane[data-spent] .roll-pill:not(:disabled):hover {
+    background: var(--signal);
+    color: var(--on-signal);
+  }
 }
 
 .pack-log {
@@ -330,9 +344,11 @@
   border-radius: 4px;
   color: var(--ink-3);
 }
-.pack-log-undo:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .pack-log-undo:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 
 .horde-move {
@@ -373,8 +389,10 @@
   font-size: 15px;
   font-weight: 700;
 }
-.horde-move-targets button:hover:not(:disabled) {
-  border-color: var(--ink);
+@media (hover: hover) {
+  .horde-move-targets button:hover:not(:disabled) {
+    border-color: var(--ink);
+  }
 }
 .horde-move-targets button:disabled {
   opacity: 0.5;
@@ -413,8 +431,10 @@
   cursor: pointer;
   font-family: var(--font-ui);
 }
-.rules-copy .rule-switch:hover {
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .rules-copy .rule-switch:hover {
+    background: var(--sheet-2);
+  }
 }
 .rules-copy .rule-switch:has(input:focus-visible) {
   outline: 2px solid var(--signal-line);
@@ -460,13 +480,15 @@
   align-items: center;
   gap: 4px;
 }
-.roster-toggle:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
-}
-.add-copy:hover {
-  color: var(--signal-text);
-  background: var(--signal-wash);
+@media (hover: hover) {
+  .roster-toggle:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
+  .add-copy:hover {
+    color: var(--signal-text);
+    background: var(--signal-wash);
+  }
 }
 .inline-summon b {
   min-width: 24px;
@@ -484,7 +506,9 @@
     background-color 0.12s,
     color 0.12s;
 }
-.inline-summon:hover b {
-  background: var(--ink);
-  color: var(--sheet);
+@media (hover: hover) {
+  .inline-summon:hover b {
+    background: var(--ink);
+    color: var(--sheet);
+  }
 }

@@ -43,8 +43,10 @@
 .incoming-conflict .forge-segment {
   flex: 0 1 280px;
 }
-.solid:disabled:hover {
-  background: var(--signal);
+@media (hover: hover) {
+  .solid:disabled:hover {
+    background: var(--signal);
+  }
 }
 .import-label {
   display: block;
@@ -104,8 +106,10 @@
   font-size: 15px;
   font-weight: 700;
 }
-.text-btn:hover {
-  background: var(--sheet-3);
+@media (hover: hover) {
+  .text-btn:hover {
+    background: var(--sheet-3);
+  }
 }
 @media (pointer: coarse) {
   .text-btn {

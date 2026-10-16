@@ -42,8 +42,10 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.support-cta:hover {
-  background: var(--ink-2);
+@media (hover: hover) {
+  .support-cta:hover {
+    background: var(--ink-2);
+  }
 }
 .support-close {
   display: grid;
@@ -54,7 +56,9 @@
   border-radius: 6px;
   color: var(--ink-2);
 }
-.support-close:hover {
-  background: color-mix(in srgb, var(--signal) 18%, transparent);
-  color: var(--ink);
+@media (hover: hover) {
+  .support-close:hover {
+    background: color-mix(in srgb, var(--signal) 18%, transparent);
+    color: var(--ink);
+  }
 }

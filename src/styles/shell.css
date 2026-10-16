@@ -61,8 +61,10 @@
   margin: 2px 0 -16px -2px;
   filter: drop-shadow(0 2px 2px rgb(20 12 6 / 0.25));
 }
-.header-brand:hover .header-logo {
-  transform: rotate(-4deg);
+@media (hover: hover) {
+  .header-brand:hover .header-logo {
+    transform: rotate(-4deg);
+  }
 }
 .header-divider {
   width: 1px;
@@ -80,7 +82,8 @@
   align-items: center;
   gap: 10px;
   height: 44px;
-  max-width: 420px;
+  /* Hug the name, but never past the room the masthead leaves it: a long name truncates. */
+  max-width: min(320px, 100%);
   padding: 0 10px 0 12px;
   border: 1px solid #3a322b;
   border-radius: 6px;
@@ -89,9 +92,11 @@
     background-color 0.15s,
     border-color 0.15s;
 }
-.encounter-switch:hover {
-  background: #1f1a16;
-  border-color: #5a4d41;
+@media (hover: hover) {
+  .encounter-switch:hover {
+    background: #1f1a16;
+    border-color: #5a4d41;
+  }
 }
 .encounter-switch.open {
   border-color: var(--signal-line);
@@ -111,6 +116,7 @@
   text-overflow: ellipsis;
 }
 .switch-chevron {
+  flex-shrink: 0;
   color: #bcae9c;
   transition: transform 0.2s var(--ease-out);
 }
@@ -129,9 +135,11 @@
   color: #fffaf0;
   font-size: 15px;
 }
-.difficulty-shortcut:hover {
-  border-color: #5a4d41;
-  background: #1f1a16;
+@media (hover: hover) {
+  .difficulty-shortcut:hover {
+    border-color: #5a4d41;
+    background: #1f1a16;
+  }
 }
 .difficulty-shortcut b {
   font-weight: 700;
@@ -166,8 +174,10 @@
   color: var(--on-signal);
   border: 0;
 }
-.app-header .desktop-add-trigger:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .app-header .desktop-add-trigger:hover {
+    background: var(--signal-hover);
+  }
 }
 .app-header .desktop-add-trigger[aria-expanded='true'] {
   background: transparent;
@@ -185,9 +195,11 @@
   font-size: 15px;
   font-weight: 600;
 }
-.header-rules:hover {
-  background: #1f1a16;
-  color: #fffaf0;
+@media (hover: hover) {
+  .header-rules:hover {
+    background: #1f1a16;
+    color: #fffaf0;
+  }
 }
 .header-icon {
   min-width: 40px;

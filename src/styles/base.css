@@ -22,6 +22,18 @@ textarea {
   color: inherit;
   letter-spacing: inherit;
 }
+/* No double-tap zoom: a GM tapping add, remove or a roll twice in a row means it twice.
+ * Pinch zoom stays. */
+html,
+button,
+a,
+input,
+select,
+textarea,
+label,
+[role='button'] {
+  touch-action: manipulation;
+}
 button {
   cursor: pointer;
   background: none;
@@ -44,8 +56,10 @@ a {
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-a:hover {
-  text-decoration-thickness: 2px;
+@media (hover: hover) {
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
 }
 kbd {
   font-family: var(--font-ui);

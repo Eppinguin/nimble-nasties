@@ -1,5 +1,5 @@
 import { Fragment } from 'preact';
-import { Anvil, CopyPlus, FileDown, FileUp, Link2, ListChecks, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-preact';
+import { Anvil, CopyPlus, FileDown, FileUp, Link2, ListChecks, MoreHorizontal, Pencil, Trash2 } from 'lucide-preact';
 import type { Monster } from '../lib/types.ts';
 import { highlight, matchMonster } from '../lib/browse.ts';
 import type { ParsedQuery } from '../lib/browse.ts';
@@ -10,6 +10,7 @@ import { plural } from '../lib/summons.ts';
 import { useApp } from '../app/context.ts';
 import { QUICK_LABEL } from '../app/reference.ts';
 import { kindLabel, levelOrMinion } from '../app/ui.ts';
+import { FieldStepper } from './FieldStepper.tsx';
 import type { Library } from './useLibrary.ts';
 
 export type HomebrewTools = {
@@ -25,8 +26,26 @@ export type HomebrewTools = {
 
 /** The homebrew shelf: your own stat blocks, sorted and grouped, each with its tools on the row.
  *  Select mode ticks several for a bulk export, share or delete. */
-export function HomebrewShelf({ lib, groups, parsed, uses, listKeys, onClear, tools }: { lib: Library; groups: { key: string; label: string; monsters: Monster[] }[]; parsed: ParsedQuery; uses: Map<string, number>; listKeys: (e: KeyboardEvent) => void; onClear: () => void; tools: HomebrewTools }) {
-  const { state, addMonster, dragStart, clearDrag } = useApp();
+export function HomebrewShelf({
+  lib,
+  groups,
+  parsed,
+  uses,
+  fielded,
+  listKeys,
+  onClear,
+  tools,
+}: {
+  lib: Library;
+  groups: { key: string; label: string; monsters: Monster[] }[];
+  parsed: ParsedQuery;
+  uses: Map<string, number>;
+  fielded: Map<string, number>;
+  listKeys: (e: KeyboardEvent) => void;
+  onClear: () => void;
+  tools: HomebrewTools;
+}) {
+  const { state, dragStart, clearDrag } = useApp();
   const { view, setView, query, quick, brewMenu, setBrewMenu, brewPicked, setBrewPicked, freshBrew } = lib;
   const all = state.customMonsters;
   const selecting = brewPicked !== null;
@@ -199,9 +218,7 @@ export function HomebrewShelf({ lib, groups, parsed, uses, listKeys, onClear, to
                         <button class="icon-btn brew-tool" aria-label={`More for ${m.name}`} title="Duplicate, share, export, delete" aria-expanded={open} aria-controls={`brew-menu-${m.id}`} onClick={() => setBrewMenu(open ? null : m.id)}>
                           <MoreHorizontal size={17} />
                         </button>
-                        <button class="lib-add" aria-label={`Add ${m.name}`} title={`Add ${m.name}`} onClick={() => addMonster(m)}>
-                          <Plus size={16} />
-                        </button>
+                        <FieldStepper monster={m} here={fielded.get(m.id) ?? 0} />
                       </>
                     )}
                   </div>

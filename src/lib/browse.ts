@@ -1,7 +1,7 @@
 import type { Monster } from './types.ts';
 import { formatLevel } from './rules.ts';
 
-export type QuickFilter = 'all' | 'standard' | 'minion' | 'legendary' | 'fits';
+export type QuickFilter = 'all' | 'fielded' | 'standard' | 'minion' | 'legendary' | 'fits';
 export type BrowseView = 'name' | 'level' | 'family';
 
 export interface LevelRange {
@@ -102,16 +102,18 @@ export function matchMonster(m: Monster, query: ParsedQuery): Match | null {
   return { monster: m, score, nameHits, hit: nameHits.length === query.words.length ? undefined : hit };
 }
 
-/** What each quick filter keeps. `fits` is a standard monster that still fits the level budget. */
-export function passesQuick(m: Monster, quick: QuickFilter, levelsLeft: number): boolean {
+/** What each quick filter keeps. `fits` is a standard monster that still fits the level budget;
+ * `fielded` is one that already has creatures in the encounter. */
+export function passesQuick(m: Monster, quick: QuickFilter, levelsLeft: number, fielded?: ReadonlySet<string>): boolean {
   if (quick === 'all') return true;
+  if (quick === 'fielded') return fielded?.has(m.id) ?? false;
   if (quick === 'fits') return m.kind === 'standard' && m.level <= levelsLeft + EPS;
   return m.kind === quick;
 }
 
-export function searchMonsters(list: Monster[], query: ParsedQuery, quick: QuickFilter, levelsLeft: number): Match[] {
+export function searchMonsters(list: Monster[], query: ParsedQuery, quick: QuickFilter, levelsLeft: number, fielded?: ReadonlySet<string>): Match[] {
   return list.flatMap((m) => {
-    if (!passesQuick(m, quick, levelsLeft)) return [];
+    if (!passesQuick(m, quick, levelsLeft, fielded)) return [];
     const found = matchMonster(m, query);
     return found ? [found] : [];
   });

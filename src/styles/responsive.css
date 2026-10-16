@@ -75,6 +75,11 @@
   .round-control strong {
     font-size: 30px;
   }
+  /* No room to hold space for the back step before there is a round to go back
+   * to: the strip starts flush with the sheets below. */
+  .round-back:disabled {
+    display: none;
+  }
   .acted-status {
     padding-left: 12px;
   }
@@ -124,6 +129,10 @@
     flex-basis: calc(100vw - 34px);
     scroll-snap-align: start;
   }
+  /* Snapping would pull every edge-scroll step back to the current lane mid-drag. */
+  .run-board.is-dragging {
+    scroll-snap-type: none;
+  }
   .sidebar.add-drawer {
     width: 100vw;
   }
@@ -168,6 +177,46 @@
     padding-left: 16px;
   }
 }
+@media (max-width: 790px), (max-height: 760px) {
+  /* One scroll for the whole drawer column, so the budget summary scrolls away and
+   * the list gets the screen; search and filters stay pinned. Phones, and any screen
+   * too short to hold the summary above a usable list (a tablet or phone on its side). */
+  .sidebar.add-drawer {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* Room for the add/remove toast, so the last row's stepper scrolls clear of it. */
+    padding-bottom: 72px;
+  }
+  .sidebar.add-drawer .sidebar-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .drawer-head-hint {
+    display: none;
+  }
+  .drawer-head-difficulty {
+    display: inline-flex;
+  }
+  .library-find {
+    display: block;
+    position: sticky;
+    top: 64px;
+    z-index: 1;
+    padding: 8px 0 10px;
+    background: var(--sheet);
+    box-shadow: 0 1px 0 var(--rule);
+  }
+  .library-tabs {
+    margin-bottom: 2px;
+  }
+  .library-panel,
+  .library-list {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+}
 @media (max-width: 560px) {
   .history-controls .history-redo {
     display: none;
@@ -176,15 +225,35 @@
     border-left: 0;
   }
 }
-@media (max-width: 400px) {
-  .party-quick {
-    grid-template-columns: 1fr;
+@media (max-width: 360px) {
+  /* The smallest phones: the strip keeps every control by dropping the Dice word. */
+  .combat-toolbar {
+    gap: 8px;
+    padding: 0 8px;
   }
+  .combat-toolbar .next-round {
+    padding: 0 12px;
+  }
+  .roll-trigger {
+    min-width: 42px;
+    justify-content: center;
+  }
+  .roll-trigger .roll-word {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  /* The plus alone says it; the encounter name gets the room. */
   .app-header .desktop-add-trigger {
     width: 42px;
     padding: 0;
     font-size: 0;
     gap: 0;
+  }
+}
+@media (max-width: 400px) {
+  .party-quick {
+    grid-template-columns: 1fr;
   }
   .acted-status {
     display: none;
@@ -276,10 +345,6 @@
   .roster-toggle,
   .add-copy {
     height: 40px;
-  }
-  .hp-command input:hover,
-  .creature-name:hover {
-    border-color: var(--rule);
   }
 }
 

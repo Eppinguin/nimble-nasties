@@ -50,9 +50,11 @@
 .forge-head .icon-btn {
   color: var(--bar-soft);
 }
-.forge-head .icon-btn:hover {
-  background: var(--bar-2);
-  color: var(--bar-text);
+@media (hover: hover) {
+  .forge-head .icon-btn:hover {
+    background: var(--bar-2);
+    color: var(--bar-text);
+  }
 }
 .forge-surprise {
   display: inline-flex;
@@ -67,8 +69,10 @@
   font-weight: 800;
   transition: background-color 0.12s;
 }
-.forge-surprise:hover {
-  background: var(--signal-hover);
+@media (hover: hover) {
+  .forge-surprise:hover {
+    background: var(--signal-hover);
+  }
 }
 .forge-surprise:active {
   background: var(--signal);
@@ -248,8 +252,10 @@
   font-weight: 700;
   white-space: nowrap;
 }
-.forge-segment button:hover:not(:disabled) {
-  color: var(--ink);
+@media (hover: hover) {
+  .forge-segment button:hover:not(:disabled) {
+    color: var(--ink);
+  }
 }
 .forge-segment button[aria-checked='true'] {
   background: var(--segment-on);
@@ -286,9 +292,11 @@
     background-color 0.12s,
     border-color 0.12s;
 }
-.forge-levels button:hover {
-  border-color: var(--ink-3);
-  background: var(--sheet);
+@media (hover: hover) {
+  .forge-levels button:hover {
+    border-color: var(--ink-3);
+    background: var(--sheet);
+  }
 }
 .forge-levels button[aria-checked='true'] {
   border-color: var(--ink);
@@ -343,9 +351,11 @@
     background-color 0.12s,
     border-color 0.12s;
 }
-.forge-armor button:hover {
-  border-color: var(--ink-3);
-  background: var(--sheet);
+@media (hover: hover) {
+  .forge-armor button:hover {
+    border-color: var(--ink-3);
+    background: var(--sheet);
+  }
 }
 .forge-armor button > span {
   grid-column: 1 / -1;
@@ -482,9 +492,11 @@
     background-color 0.12s,
     border-color 0.12s;
 }
-.forge-dice button:hover {
-  border-color: var(--ink-3);
-  background: var(--sheet);
+@media (hover: hover) {
+  .forge-dice button:hover {
+    border-color: var(--ink-3);
+    background: var(--sheet);
+  }
 }
 .forge-dice b {
   font-family: var(--font-display);
@@ -538,9 +550,11 @@
 .forge-chip svg {
   color: var(--ink-3);
 }
-.forge-chip:hover {
-  border-color: var(--ink-3);
-  background: var(--sheet-2);
+@media (hover: hover) {
+  .forge-chip:hover {
+    border-color: var(--ink-3);
+    background: var(--sheet-2);
+  }
 }
 .forge-chip[aria-pressed='true'] {
   border-color: var(--ink);
@@ -594,16 +608,20 @@
   font-weight: 800;
   color: var(--ink);
 }
-.forge-entry-head input:hover {
-  border-color: var(--rule-strong);
+@media (hover: hover) {
+  .forge-entry-head input:hover {
+    border-color: var(--rule-strong);
+  }
 }
 .forge-entry-head .icon-btn {
   width: 34px;
   height: 34px;
   color: var(--ink-3);
 }
-.forge-entry-head .icon-btn:hover {
-  color: var(--laststand);
+@media (hover: hover) {
+  .forge-entry-head .icon-btn:hover {
+    color: var(--laststand);
+  }
 }
 .forge-roll {
   display: flex;
@@ -704,9 +722,11 @@
   font-size: 15px;
   font-weight: 700;
 }
-.forge-add:hover {
-  background: var(--sheet-3);
-  color: var(--ink);
+@media (hover: hover) {
+  .forge-add:hover {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
 }
 .forge-phases {
   display: grid;
@@ -818,8 +838,10 @@ button.forge-tally {
   margin: -4px -8px;
   border-radius: 6px;
 }
-button.forge-tally:hover {
-  background: var(--sheet-2);
+@media (hover: hover) {
+  button.forge-tally:hover {
+    background: var(--sheet-2);
+  }
 }
 button.forge-tally svg {
   color: var(--ink-3);
@@ -855,8 +877,10 @@ button.forge-tally svg {
   margin-right: auto;
   color: var(--laststand);
 }
-.outline.danger:hover {
-  border-color: var(--laststand);
+@media (hover: hover) {
+  .outline.danger:hover {
+    border-color: var(--laststand);
+  }
 }
 
 @media (max-width: 1020px) {

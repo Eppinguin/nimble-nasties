@@ -91,15 +91,35 @@ export function Board({ lanes }: { lanes: BoardLane[] }) {
     event.preventDefault();
     if (event.dataTransfer) event.dataTransfer.dropEffect = dragging?.kind === 'lane' ? 'move' : 'copy';
     if (!dragging) return;
+    dragX.current = event.clientX;
     const next = slotAt(dragging.id, event.clientX);
     if (dropTarget !== next) setDropTarget(next);
-    const board = boardRef.current;
-    if (board) {
-      const box = board.getBoundingClientRect();
-      if (event.clientX < box.left + 46) board.scrollLeft -= 22;
-      if (event.clientX > box.right - 46) board.scrollLeft += 22;
-    }
   }
+  // Near an edge the board keeps scrolling while the pointer rests there: touch
+  // drags only report movement, and full-width phone lanes leave no other way
+  // to reach a neighbour. Faster the closer to the edge.
+  const dragX = useRef<number | null>(null);
+  useEffect(() => {
+    const board = boardRef.current;
+    if (!dragging || !board) return;
+    let frame = requestAnimationFrame(function step() {
+      const x = dragX.current;
+      if (x !== null) {
+        const box = board.getBoundingClientRect();
+        const zone = Math.min(96, Math.max(46, box.width * 0.18));
+        const depth = x < box.left + zone ? x - box.left - zone : x > box.right - zone ? x - box.right + zone : 0;
+        if (depth) {
+          board.scrollLeft += Math.sign(depth) * Math.max(4, Math.round((Math.min(Math.abs(depth), zone) / zone) * 22));
+          setDropTarget(slotAt(dragging.id, x));
+        }
+      }
+      frame = requestAnimationFrame(step);
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      dragX.current = null;
+    };
+  }, [dragging?.id]);
   function drop(event: DragEvent) {
     const payload = event.dataTransfer?.getData('text/plain') ?? '';
     if (!payload.startsWith('monster:') && !payload.startsWith('lane:')) return;
