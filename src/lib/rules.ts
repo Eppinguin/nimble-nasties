@@ -13,6 +13,13 @@ export function formatLevel(level: number): string {
   return Number.isInteger(level) ? String(level) : String(+level.toFixed(2));
 }
 
+/** A sum of levels, with the book's thirds and quarters: 17⅓, 6½, ¾ → .8. */
+export function formatLevels(levels: number): string {
+  const whole = Math.floor(levels + 0.01),
+    part = levels - whole;
+  return part < 0.01 ? String(whole) : `${whole || ''}${formatLevel(part).length === 1 ? formatLevel(part) : part.toFixed(1).slice(1)}`;
+}
+
 // First-printing GMG v1, p. 25: total hero levels compared against the sum
 // of regular monster levels. Difficulty bands are descriptive, not exact steps.
 export function difficulty(spent: number, budget: number) {
@@ -70,9 +77,9 @@ function unbudgeted(legendaries: number, minionsPerHero: number) {
   return { label: 'Not started', color: 'muted', ratio: 0 };
 }
 
-export function monsterHp(monster: Monster, _heroCount: number): number {
+export function monsterHp(monster: Monster, heroCount: number): number {
   if (monster.kind === 'minion') return 1;
-  return monster.hp ?? 1;
+  return monster.hp ?? (monster.hpPerHero ? monster.hpPerHero * Math.max(1, heroCount) : 1);
 }
 
 export function monsterLastStand(monster: Monster, _heroCount: number): number | undefined {

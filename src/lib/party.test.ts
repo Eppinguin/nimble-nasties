@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { isUniformParty, partyLevel, setHeroLevel, setQuickParty } from './party.ts';
+import { isUniformParty, partyFor, partyLevel, setHeroLevel, setQuickParty } from './party.ts';
 import type { Hero } from './types.ts';
 const heroes: Hero[] = [
   { id: 'a', name: 'Adventurer', level: 3, hp: 17, maxHp: 19, defense: 2 },
@@ -32,4 +32,15 @@ test('detailed edits retain other levels and quick mode can detect mixed levels'
   assert.equal(isUniformParty(party), false);
   assert.equal(partyLevel(party), 10);
   assert.equal(heroes[0].level, 3);
+});
+
+test('an imported encounter keeps your party when it already fits', () => {
+  const mine = setQuickParty([], 4, 3);
+  assert.equal(partyFor(mine, 4, 3), mine);
+  const bigger = partyFor(mine, 5, 2);
+  assert.deepEqual(
+    bigger.map((h) => h.level),
+    [2, 2, 2, 2, 2],
+  );
+  assert.equal(bigger[0].id, mine[0].id);
 });

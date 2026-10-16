@@ -11,7 +11,7 @@ export type ToastStep = { undo?: string; redo?: string; action?: ToastAction };
 export type RollReceipt = { label: string; summary: string; status: string };
 export type Drag = { kind: 'monster' | 'lane'; id: string; name: string };
 /** The one dialog App shows at a time. */
-export type Modal = 'notes' | 'rules' | 'preview' | 'incoming' | 'import' | 'link' | 'delete' | 'about' | null;
+export type Modal = 'notes' | 'rules' | 'preview' | 'incoming' | 'import' | 'encounter' | 'link' | 'delete' | 'about' | null;
 
 /** What the board's components share with the app: the current encounter, the
  *  labelled undo steps that change it, the dice, and the few bits of UI state that

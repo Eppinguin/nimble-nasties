@@ -1,6 +1,7 @@
 import type { ComponentChildren } from 'preact';
 import { Info, Moon, Plus, Sun, SunMoon, X } from 'lucide-preact';
 import type { Theme } from '../app/useTheme.ts';
+import { formatLevels } from '../lib/rules.ts';
 
 const THEMES = [
   // Sun-moon draws smaller inside its box, so it gets more room, with a thinner stroke to keep the line weight.
@@ -52,7 +53,7 @@ export function AppHeader({
           <span class="difficulty-dot" aria-hidden="true" />
           <b>{difficulty.label}</b>
           <small>
-            {Number(difficulty.spent.toFixed(2))}/{difficulty.budget}
+            {formatLevels(difficulty.spent)}/{difficulty.budget}
           </small>
         </button>
         <button class="outline compact desktop-add-trigger" aria-expanded={libraryOpen} aria-controls="monster-library" onClick={onToggleLibrary}>

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { appliedDamage, difficulty, monsterHp, monsterLastStand, encounterStats } from './rules.ts';
+import { appliedDamage, difficulty, monsterHp, monsterLastStand, encounterStats, formatLevels } from './rules.ts';
 import type { Monster } from './types.ts';
 test('GMG v1 monster armor: Medium uses dice only, Heavy halves dice only', () => {
   assert.equal(appliedDamage(28, 'medium', false), 28);
@@ -74,4 +74,8 @@ test('standard monsters keep the level-based difficulty alongside minions and le
     heroes,
   );
   assert.equal(result.difficulty.label, 'Hard');
+});
+
+test('level sums print with the book fractions', () => {
+  assert.deepEqual([formatLevels(17 + 1 / 3), formatLevels(6.5), formatLevels(4), formatLevels(0.25)], ['17⅓', '6½', '4', '¼']);
 });

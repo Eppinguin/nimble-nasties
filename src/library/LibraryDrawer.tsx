@@ -5,7 +5,7 @@ import { Anvil, FileDown, FileUp, Info, Search, X } from 'lucide-preact';
 import type { Monster } from '../lib/types.ts';
 import { describeLevel, groupMatches, highlight, matchMonster, parseQuery, passesQuick, searchMonsters } from '../lib/browse.ts';
 import { ORIGIN_LABEL, encountersUsing, groupHomebrew, originOf } from '../lib/homebrew.ts';
-import { encounterStats, formatLevel } from '../lib/rules.ts';
+import { encounterStats, formatLevel, formatLevels } from '../lib/rules.ts';
 import { rulesFor } from '../lib/rulesets.ts';
 import { nexusTarget } from '../lib/nexus.ts';
 import type { NexusTarget } from '../lib/nexus.ts';
@@ -22,12 +22,7 @@ import type { Library, LibraryTab } from './useLibrary.ts';
 type Stats = ReturnType<typeof encounterStats>;
 
 /** Levels left before Hard, with the book's thirds and quarters. */
-function budgetLeft(levelsLeft: number) {
-  const left = Math.max(0, levelsLeft);
-  const whole = Math.floor(left + 0.01),
-    part = left - whole;
-  return part < 0.01 ? String(whole) : `${whole || ''}${formatLevel(part).length === 1 ? formatLevel(part) : part.toFixed(1).slice(1)}`;
-}
+const budgetLeft = (levelsLeft: number) => formatLevels(Math.max(0, levelsLeft));
 
 /** The library drawer: difficulty budget and party up top, then the bestiary and
  *  homebrew shelves with search. Search reads levels (`3`, `2-4`, `5+`) and matches

@@ -8,16 +8,26 @@ export function Statline({ monster }: { monster: Monster }) {
   return (
     <div class="statline">
       {monster.kind !== 'standard' && <i class={`kind-tag kind-${monster.kind}`}>{kindLabel(monster)}</i>}
-      {!monster.summon && (
+      {!monster.summon && !(monster.kind === 'minion' && monster.level === 0) && (
         <span class="stat" title={`Level ${formatLevel(monster.level)}`}>
           <small>Lv</small>
           <b>{formatLevel(monster.level)}</b>
         </span>
       )}
-      <span class="stat stat-hp" title={`${monster.hp ?? '—'} HP`}>
+      <span class="stat stat-hp" title={monster.hp == null && monster.hpPerHero ? `${monster.hpPerHero} HP per hero` : `${monster.hp ?? '—'} HP`}>
         <Heart size={13} aria-hidden="true" />
-        <b>{monster.hp ?? '—'}</b>
-        <span class="sr-only"> HP</span>
+        {monster.hp == null && monster.hpPerHero ? (
+          <>
+            <b>{monster.hpPerHero}</b>
+            <small>/hero</small>
+            <span class="sr-only"> HP per hero</span>
+          </>
+        ) : (
+          <>
+            <b>{monster.hp ?? '—'}</b>
+            <span class="sr-only"> HP</span>
+          </>
+        )}
       </span>
       {monster.armor !== 'none' && (
         <span class="stat stat-armor" title={`${monster.armor === 'medium' ? 'Medium' : 'Heavy'} armor`}>

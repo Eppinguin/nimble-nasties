@@ -10,7 +10,7 @@ import { SHARE_KEY, readMonster } from './share.ts';
 export const NEXUS_ORIGIN = 'https://nimble.nexus';
 
 type Resource = { type: string; id: string; attributes?: Record<string, unknown>; relationships?: Record<string, { data?: unknown }> };
-export type NexusTarget = { kind: 'monsters' | 'collections'; id: string };
+export type NexusTarget = { kind: 'monsters' | 'collections' | 'encounters'; id: string };
 
 const obj = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
 const text = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
@@ -22,13 +22,15 @@ const refs = (r: Resource, rel: string) => {
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const NEXUS_ID = /^[0-9a-z]{26}$/;
 
-/** A Nexus monster or collection link (`/monsters/<slug>-<id>`, `/m/<id>`, `/collections/…`), or null. */
+/** A Nexus monster, collection or encounter link (`/monsters/<slug>-<id>`, `/m/<id>`,
+ *  `/collections/…`, `/encounters/…`), or null. */
 export function nexusTarget(input: string): NexusTarget | null {
-  const match = /\bhttps?:\/\/(?:www\.)?(?:nimble\.nexus|nimble\.monster|nimblenomi\.com)\/(monsters|m|collections|c)\/([\w-]+)/i.exec(input.trim());
+  const match = /\bhttps?:\/\/(?:www\.)?(?:nimble\.nexus|nimble\.monster|nimblenomi\.com)\/(monsters|m|collections|c|encounters)\/([\w-]+)/i.exec(input.trim());
   if (!match) return null;
   const id = match[2].toLowerCase().split('-').at(-1) ?? '';
   if (!NEXUS_ID.test(id)) return null;
-  return { kind: match[1].toLowerCase().startsWith('c') ? 'collections' : 'monsters', id };
+  const path = match[1].toLowerCase();
+  return { kind: path === 'encounters' ? 'encounters' : path.startsWith('c') ? 'collections' : 'monsters', id };
 }
 
 /** A Nexus link carried in a location hash, as in `#monster=https://nimble.nexus/monsters/…`
@@ -84,15 +86,16 @@ export function fromNexus(resource: Resource, lookup: (type: string, id: string)
     };
   });
   const traits = (Array.isArray(a.abilities) ? a.abilities : []).map(obj).map((t) => ({ name: text(t.name).replace(/\.$/, '') || 'Trait', description: text(t.description) }));
-  if (perHero) traits.unshift({ name: 'Hit points', description: `${perHero} per hero.` });
   if (otherMovement.length) traits.unshift({ name: 'Movement', description: otherMovement.join(' · ') });
   const monster = readMonster({
     id: `homebrew-nexus-${resource.id}`,
     name: text(a.name),
-    level: level(a.level),
+    // Nexus lets a minion go without a level; minions sit outside the level budget anyway.
+    level: level(a.level) ?? (a.minion === true ? 0 : undefined),
     kind: a.minion === true ? 'minion' : a.legendary === true ? 'legendary' : 'standard',
     armor: a.armor,
-    hp: typeof a.hp === 'number' && a.hp > 0 ? a.hp : null,
+    hp: !perHero && typeof a.hp === 'number' && a.hp > 0 ? a.hp : null,
+    hpPerHero: perHero,
     lastStand: lastStand ? Number(lastStand[1]) : undefined,
     family: family || text(a.kind) || undefined,
     role: text(a.role) ? cap(text(a.role)) : undefined,
@@ -124,7 +127,7 @@ export function monstersInNexusDocument(raw: unknown): Monster[] | null {
 
 async function getJson(path: string, signal?: AbortSignal): Promise<Record<string, unknown>> {
   const response = await fetch(`${NEXUS_ORIGIN}/api/${path}`, { signal, headers: { Accept: 'application/vnd.api+json' } });
-  if (response.status === 404) throw Error('Nimble Nexus has no monster or collection at that link. It may be private or deleted.');
+  if (response.status === 404) throw Error(`Nimble Nexus has no ${path.startsWith('encounters') ? 'encounter' : 'monster or collection'} at that link. It may be private or deleted.`);
   if (!response.ok) throw Error(`Nimble Nexus answered ${response.status}. Try again in a moment.`);
   return obj(await response.json());
 }
@@ -132,9 +135,18 @@ async function getJson(path: string, signal?: AbortSignal): Promise<Record<strin
 /** How long a Nexus import may take, lookups included, before it gives up. */
 export const NEXUS_TIMEOUT = 15000;
 
-/** The monsters behind a Nexus link. Gives up after `timeout` with a message to show;
- *  aborting `signal` (the dialog closed) rejects with the abort reason and imports nothing. */
-export async function fetchNexus(target: NexusTarget, signal?: AbortSignal, timeout = NEXUS_TIMEOUT): Promise<Monster[]> {
+/** The monsters behind a Nexus monster or collection link. Gives up after `timeout` with a
+ *  message to show; aborting `signal` (the dialog closed) rejects with the abort reason and imports nothing. */
+export function fetchNexus(target: NexusTarget, signal?: AbortSignal, timeout = NEXUS_TIMEOUT): Promise<Monster[]> {
+  return bounded((s) => fetchAll(target, s), signal, timeout);
+}
+
+/** The encounter behind a Nexus encounter link, its monsters in full; same timeout and cancelling as `fetchNexus`. */
+export function fetchNexusEncounter(id: string, signal?: AbortSignal, timeout = NEXUS_TIMEOUT): Promise<NexusEncounter> {
+  return bounded((s) => fetchEncounter(id, s), signal, timeout);
+}
+
+async function bounded<T>(run: (signal: AbortSignal) => Promise<T>, signal: AbortSignal | undefined, timeout: number): Promise<T> {
   const controller = new AbortController();
   let timedOut = false;
   const timer = setTimeout(() => {
@@ -145,9 +157,9 @@ export async function fetchNexus(target: NexusTarget, signal?: AbortSignal, time
   if (signal?.aborted) cancel();
   else signal?.addEventListener('abort', cancel, { once: true });
   try {
-    const monsters = await fetchAll(target, controller.signal);
+    const result = await run(controller.signal);
     controller.signal.throwIfAborted();
-    return monsters;
+    return result;
   } catch (err) {
     throw timedOut ? Error('Nimble Nexus took too long to answer. Try again in a moment.') : err;
   } finally {
@@ -177,4 +189,95 @@ async function fetchAll(target: NexusTarget, signal: AbortSignal): Promise<Monst
   const monsters = monstersInNexusDocument({ data: known, included: extra.filter(isResource) }) ?? [];
   if (!monsters.length) throw Error(target.kind === 'collections' ? 'This Nimble Nexus collection has no finished monsters to import.' : "This Nimble Nexus monster is missing a name or level, so it can't be imported yet.");
   return monsters;
+}
+
+/** One line of a Nexus encounter: a fixed number, or so many per so many heroes. */
+export interface NexusEntry {
+  monster: Monster;
+  quantity: number;
+  perHero: boolean;
+  heroesPerMonster: number;
+}
+/** A Nexus encounter as its author built it: for `heroCount` heroes at `heroLevel`. */
+export interface NexusEncounter {
+  id: string;
+  name: string;
+  description: string;
+  author?: string;
+  heroCount: number;
+  heroLevel: number;
+  url: string;
+  entries: NexusEntry[];
+  /** Monsters that couldn't be read (unfinished, private or deleted). */
+  skipped: number;
+}
+
+const count = (v: unknown, fallback: number) => (typeof v === 'number' && Number.isFinite(v) && v >= 1 ? Math.min(99, Math.round(v)) : fallback);
+
+/** How many of an entry a party fields, as Nimble Nexus counts it: a legendary is always
+ *  one, a fixed entry its number, a per-hero entry scales with the party. Nexus allows
+ *  fractions (1 per 4 heroes with 6 heroes is 1.5); a table can't, so it rounds, never to none. */
+export function nexusCount(entry: Pick<NexusEntry, 'quantity' | 'perHero' | 'heroesPerMonster'> & { monster: Pick<Monster, 'kind'> }, heroCount: number): number {
+  if (entry.monster.kind === 'legendary') return 1;
+  if (!entry.perHero) return entry.quantity;
+  return Math.max(1, Math.round((entry.quantity * Math.max(1, heroCount)) / Math.max(1, entry.heroesPerMonster)));
+}
+
+/** How an entry reads on Nexus: "2", "1 per hero", "1 per 2 heroes". */
+export function nexusRatio(entry: Pick<NexusEntry, 'quantity' | 'perHero' | 'heroesPerMonster'>): string {
+  if (!entry.perHero) return String(entry.quantity);
+  return entry.heroesPerMonster > 1 ? `${entry.quantity} per ${entry.heroesPerMonster} heroes` : `${entry.quantity} per hero`;
+}
+
+/** Nexus hosts the GMG bestiary too. A monster identical in name, level, kind and HP to a
+ *  bundled one is that monster: the encounter uses it instead of a homebrew copy. */
+export function bundledTwin(monster: Monster, official: Monster[]): Monster | undefined {
+  const key = (m: Monster) => [m.name.trim().toLowerCase(), +m.level.toFixed(3), m.kind === 'team' ? 'standard' : m.kind, m.kind === 'minion' ? 1 : m.hp].join('|');
+  const wanted = key(monster);
+  return official.find((m) => m.source === 'official' && !m.summon && key(m) === wanted);
+}
+
+/** The encounter names its monsters and how many (Nexus lists them only when they are
+ *  included, and then only as summaries); each is fetched in full, the way a monster
+ *  link is, so a missing one costs only itself. */
+async function fetchEncounter(id: string, signal: AbortSignal): Promise<NexusEncounter> {
+  const doc = await getJson(`encounters/${id}?include=monsters,creator`, signal);
+  const data = doc.data;
+  if (!isResource(data) || data.type !== 'encounters') throw Error('Nimble Nexus has no encounter at that link. It may be private or deleted.');
+  const a = obj(data.attributes);
+  const included = (Array.isArray(doc.included) ? doc.included : []).filter(isResource);
+  const creator = refs(data, 'creator')
+    .map((u) => obj(included.find((r) => r.type === 'users' && r.id === u.id)?.attributes))
+    .map((u) => text(u.displayName) || text(u.username))
+    .find(Boolean);
+  const lines = refs(data, 'monsters').slice(0, 30);
+  if (!lines.length) throw Error('This Nimble Nexus encounter has no monsters yet.');
+  const fetched = await Promise.all(
+    lines.map((line) =>
+      fetchAll({ kind: 'monsters', id: line.id }, signal)
+        .then(([m]) => m)
+        .catch((err: unknown) => {
+          if (signal.aborted) throw err;
+          return undefined;
+        }),
+    ),
+  );
+  const entries = lines.flatMap((line, i): NexusEntry[] => {
+    const monster = fetched[i];
+    if (!monster) return [];
+    const meta = obj(obj(line).meta);
+    return [{ monster, quantity: count(meta.quantity, 1), perHero: meta.isPerHero === true, heroesPerMonster: count(meta.heroesPerMonster, 1) }];
+  });
+  if (!entries.length) throw Error("None of this encounter's monsters could be read from Nimble Nexus. They may be private or unfinished.");
+  return {
+    id: data.id,
+    name: text(a.name).slice(0, 120) || 'Nimble Nexus encounter',
+    description: text(a.description).slice(0, 4000),
+    author: creator,
+    heroCount: count(a.heroCount, 4),
+    heroLevel: Math.min(20, count(a.heroLevel, 1)),
+    url: `${NEXUS_ORIGIN}/encounters/${data.id}`,
+    entries,
+    skipped: lines.length - entries.length,
+  };
 }

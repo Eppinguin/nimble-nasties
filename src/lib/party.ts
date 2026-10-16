@@ -28,3 +28,10 @@ export function setHeroLevel(heroes: Hero[], id: string, level: number): Hero[] 
   const desired = boundedLevel(level);
   return heroes.map((hero) => (hero.id === id ? { ...hero, level: desired } : hero));
 }
+
+/** A party of `size` heroes at `level`, keeping your heroes' names where it can;
+ *  your own party untouched (mixed levels and all) when it already matches. */
+export function partyFor(heroes: Hero[], size: number, level: number): Hero[] {
+  if (heroes.length === size && heroes.every((hero) => hero.level === level)) return heroes;
+  return setQuickParty(heroes, size, level);
+}

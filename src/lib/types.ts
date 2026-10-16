@@ -25,6 +25,8 @@ export interface Monster {
   kind: MonsterKind;
   armor: Armor;
   hp: number | null;
+  /** HP that scales with the party (Nimble Nexus homebrew), used when `hp` is null. */
+  hpPerHero?: number;
   lastStand?: number;
   family: string;
   role: string;

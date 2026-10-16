@@ -88,6 +88,7 @@ export function readMonster(v: unknown): Monster | null {
     kind: KINDS.includes(m.kind as MonsterKind) ? (m.kind as MonsterKind) : 'standard',
     armor: ARMORS.includes(m.armor as Armor) ? (m.armor as Armor) : 'none',
     hp: m.hp === null ? null : (num(m.hp, 1, 9999) ?? null),
+    hpPerHero: num(m.hpPerHero, 1, 999),
     lastStand: num(m.lastStand, 1, 9999),
     family: str(m.family, LABEL) ?? 'Homebrew',
     role: str(m.role, LABEL) ?? 'Custom',
@@ -123,7 +124,7 @@ export function sameMonster(a: Monster, b: Monster): boolean {
  * absent or at its default (trailing ones dropped), forge abilities by id instead
  * of their text, and no row ids. A forge-built monster whose stat block is exactly
  * what its controls produce travels as the controls alone and is rebuilt on arrival.
- *   [1, id, monster, draft?]  stat block (plus controls); a Nexus source link and credit ride at its end
+ *   [1, id, monster, draft?]  stat block (plus controls); a Nexus source link, credit and HP per hero ride at its end
  *   [2, id, draft]            controls only */
 type Wire = unknown[];
 const FORGE_KINDS = ['standard', 'minion', 'legendary'] as const;
@@ -218,11 +219,12 @@ function packMonster(m: Monster): Wire {
     m.lastStand,
     m.sourceUrl,
     m.author,
+    m.hpPerHero,
   ]);
 }
 function unpackMonster(w: unknown, id: string | undefined): unknown {
   if (!Array.isArray(w)) return undefined;
-  const [name, level, kind, armor, hp, family, role, size, speed, saves, traits, actions, actionInstructions, bloodied, lastStandText, lastStand, sourceUrl, author] = w;
+  const [name, level, kind, armor, hp, family, role, size, speed, saves, traits, actions, actionInstructions, bloodied, lastStandText, lastStand, sourceUrl, author, hpPerHero] = w;
   return {
     id,
     name,
@@ -243,6 +245,7 @@ function unpackMonster(w: unknown, id: string | undefined): unknown {
     lastStand: opt(lastStand),
     sourceUrl: opt(sourceUrl),
     author: opt(author),
+    hpPerHero: opt(hpPerHero),
   };
 }
 

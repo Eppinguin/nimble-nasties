@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchNexus, fromNexus, hashNexusTarget, monstersInNexusDocument, nexusTarget } from './nexus.ts';
+import { bundledTwin, fetchNexus, fetchNexusEncounter, fromNexus, hashNexusTarget, monstersInNexusDocument, nexusCount, nexusRatio, nexusTarget } from './nexus.ts';
+import { monsterHp } from './rules.ts';
+import { officialCatalog } from '../data/official.ts';
 import { decodeMonster, encodeMonster, readMonster, sameMonster } from './share.ts';
 
 // Trimmed from https://nimble.nexus/api/monsters/7aft60azdm858rdd35qg4bj7kd?include=families,creator (October 2026).
@@ -122,4 +124,76 @@ test('a Nexus answer arrives as monsters', async (t) => {
   const [monster] = await fetchNexus({ kind: 'monsters', id: asuvius.data.id });
   assert.equal(monster.id, `homebrew-nexus-${asuvius.data.id}`);
   assert.equal(monster.author, 'Antlers');
+});
+
+test('Nexus encounter links', () => {
+  assert.deepEqual(nexusTarget('https://nimble.nexus/encounters/eager-fox-inn-0ns3bh9gh08tzsg6ykp57va7e1'), { kind: 'encounters', id: '0ns3bh9gh08tzsg6ykp57va7e1' });
+  assert.deepEqual(hashNexusTarget('#monster=https://nimble.nexus/encounters/0ns3bh9gh08tzsg6ykp57va7e1'), { kind: 'encounters', id: '0ns3bh9gh08tzsg6ykp57va7e1' });
+});
+
+test('encounter counts follow the party the way Nexus counts them', () => {
+  const standard = { kind: 'standard' as const };
+  assert.equal(nexusCount({ monster: standard, quantity: 2, perHero: false, heroesPerMonster: 1 }, 6), 2);
+  assert.equal(nexusCount({ monster: standard, quantity: 1, perHero: true, heroesPerMonster: 1 }, 5), 5);
+  assert.equal(nexusCount({ monster: standard, quantity: 1, perHero: true, heroesPerMonster: 2 }, 5), 3);
+  assert.equal(nexusCount({ monster: standard, quantity: 1, perHero: true, heroesPerMonster: 4 }, 1), 1);
+  assert.equal(nexusCount({ monster: { kind: 'legendary' }, quantity: 3, perHero: true, heroesPerMonster: 1 }, 6), 1);
+  assert.equal(nexusRatio({ quantity: 1, perHero: true, heroesPerMonster: 2 }), '1 per 2 heroes');
+  assert.equal(nexusRatio({ quantity: 2, perHero: true, heroesPerMonster: 1 }), '2 per hero');
+});
+
+test('a Nexus copy of a GMG monster fields the bundled one', () => {
+  const official = officialCatalog.find((m) => m.name === 'Bandit Minion');
+  assert.ok(official);
+  const copy = { ...official, id: 'homebrew-nexus-x', source: 'homebrew' as const, name: 'bandit minion ' };
+  assert.equal(bundledTwin(copy, officialCatalog)?.id, official.id);
+  assert.equal(bundledTwin({ ...copy, name: 'Bandit', level: 0.5, hp: 15, kind: 'standard' }, officialCatalog), undefined);
+});
+
+test('per-hero HP scales with the party and survives a share link', async () => {
+  const doc = { ...asuvius, data: { ...asuvius.data, attributes: { ...asuvius.data.attributes, hp: 0, hpPerHero: 20 } } };
+  const [m] = monstersInNexusDocument(doc) ?? [];
+  assert.ok(m);
+  assert.deepEqual([m.hp, m.hpPerHero, monsterHp(m, 5)], [null, 20, 100]);
+  const back = await decodeMonster(await encodeMonster(m));
+  assert.equal(back?.hpPerHero, 20);
+});
+
+test('a Nexus encounter arrives with its party and its monsters in full', async (t) => {
+  const encounter = {
+    data: {
+      type: 'encounters',
+      id: '0ns3bh9gh08tzsg6ykp57va7e1',
+      attributes: { name: 'Eager Fox Inn', description: 'The rat problem mutated.', heroCount: 5, heroLevel: 2 },
+      relationships: {
+        creator: { data: { type: 'users', id: '6em77219fn96vbbqfhaqpwnhgz' } },
+        monsters: {
+          data: [
+            { type: 'monsters', id: asuvius.data.id, meta: { quantity: 1, isPerHero: true, heroesPerMonster: 2 } },
+            { type: 'monsters', id: '0bn0yesrcn8fys8q1bpb2ggw1x', meta: { quantity: 1, isPerHero: false, heroesPerMonster: 1 } },
+          ],
+        },
+      },
+    },
+    included: [{ type: 'users', id: '6em77219fn96vbbqfhaqpwnhgz', attributes: { username: 'innkeeper' } }],
+  };
+  t.mock.method(globalThis, 'fetch', async (url: string) => {
+    if (url.includes('/encounters/')) return new Response(JSON.stringify(encounter), { status: 200 });
+    if (url.includes(asuvius.data.id)) return new Response(JSON.stringify(asuvius), { status: 200 });
+    return new Response('{}', { status: 404 });
+  });
+  const found = await fetchNexusEncounter(encounter.data.id);
+  assert.deepEqual([found.name, found.author, found.heroCount, found.heroLevel, found.skipped], ['Eager Fox Inn', 'innkeeper', 5, 2, 1]);
+  assert.equal(found.entries.length, 1);
+  assert.deepEqual([found.entries[0].perHero, found.entries[0].heroesPerMonster], [true, 2]);
+  assert.equal(found.url, 'https://nimble.nexus/encounters/0ns3bh9gh08tzsg6ykp57va7e1');
+});
+
+test('a Nexus minion without a level still imports', () => {
+  // https://nimble.nexus/api/monsters/41x1p2n25k8eysdr6vd2971527 (October 2026), trimmed.
+  const minion = { type: 'monsters', id: '41x1p2n25k8eysdr6vd2971527', attributes: { name: 'Bandit Minion', hp: 8, level: null, armor: 'none', movement: [{ speed: 6 }], abilities: [], actions: [{ name: 'Stab ', description: '', damage: { roll: '1d8' } }], minion: true, legendary: false } };
+  const m = fromNexus(minion);
+  assert.ok(m);
+  assert.deepEqual([m.kind, m.level], ['minion', 0]);
+  assert.equal(fromNexus({ ...minion, attributes: { ...minion.attributes, minion: false } }), null);
 });

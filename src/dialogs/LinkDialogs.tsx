@@ -2,7 +2,7 @@ import { FileUp, Info, Link2 } from 'lucide-preact';
 
 export type ImportLinkState = { text: string; error?: string; busy?: boolean };
 
-/** Import takes a link (a shared monster, or Nimble Nexus) or a file. A Nexus fetch
+/** Import takes a link (a shared monster, or a Nimble Nexus monster, collection or encounter) or a file. A Nexus fetch
  *  keeps the dialog open, so a failure shows beside the link it was about. */
 export function ImportDialog({ link, setLink, onSubmit, onChooseFile }: { link: ImportLinkState; setLink: (link: ImportLinkState) => void; onSubmit: () => void; onChooseFile: () => void }) {
   return (
@@ -26,7 +26,7 @@ export function ImportDialog({ link, setLink, onSubmit, onChooseFile }: { link: 
         spellcheck={false}
         autoFocus
         readOnly={link.busy}
-        placeholder="https://nimble.nexus/monsters/…"
+        placeholder="https://nimble.nexus/encounters/…"
         value={link.text}
         aria-invalid={link.error ? true : undefined}
         aria-describedby="import-hint"
@@ -34,7 +34,7 @@ export function ImportDialog({ link, setLink, onSubmit, onChooseFile }: { link: 
       />
       <p id="import-hint" class={link.error ? 'import-hint import-error' : 'import-hint'} role={link.error ? 'alert' : undefined}>
         {link.error && <Info size={14} aria-hidden="true" />}
-        {link.error ?? 'A monster someone shared from Nimble Nasties, or a monster or collection on Nimble Nexus (nimble.nexus or nimblenomi.com).'}
+        {link.error ?? 'A monster someone shared from Nimble Nasties, or a monster, collection or encounter on Nimble Nexus (nimble.nexus or nimblenomi.com).'}
       </p>
       <div class="modal-bottom">
         <button type="button" class="outline" onClick={onChooseFile} title="Monsters or encounters exported from Nimble Nasties, or a saved Nimble Nexus API response">

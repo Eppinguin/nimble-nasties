@@ -6,7 +6,7 @@ import type { NemesesState, NemesisCard, NemesisEncounter } from './lib/board.ts
 import { arriveAsPack, lanePacks, prunePacks } from './lib/horde.ts';
 import { navigate, record, redo, undo } from './lib/history.ts';
 import { encounterStats } from './lib/rules.ts';
-import { RULESETS, rulesFor } from './lib/rulesets.ts';
+import { DEFAULT_RULES, RULESETS, rulesFor } from './lib/rulesets.ts';
 import type { RulesetId } from './lib/rulesets.ts';
 import { plural, summonCount, summonId, summonMonster, withSummons } from './lib/summons.ts';
 import type { SummonSpec } from './lib/summons.ts';
@@ -41,6 +41,7 @@ import { useLibrary } from './library/useLibrary.ts';
 import { Dialog, useDialogFocus } from './dialogs/Dialog.tsx';
 import { AboutDialog } from './dialogs/AboutDialog.tsx';
 import { ImportDialog, ShareLinkDialog } from './dialogs/LinkDialogs.tsx';
+import { NexusEncounterDialog } from './dialogs/NexusEncounterDialog.tsx';
 import { DeleteHomebrewDialog, IncomingDialog, PreviewDialog } from './dialogs/MonsterDialogs.tsx';
 import { NotesDialog } from './dialogs/NotesDialog.tsx';
 import { RulesDialog } from './dialogs/RulesDialog.tsx';
@@ -458,7 +459,8 @@ export function App() {
     rules: 'Nimble rules',
     about: 'About Nimble Nasties',
     incoming: brew.incoming?.monster.name ?? 'Monster',
-    import: 'Import monsters',
+    import: 'Import',
+    encounter: brew.nexusEncounter?.found.name ?? 'Encounter',
     link: `Share ${brew.linkToCopy?.name ?? 'monster'}`,
     delete: `Delete ${brew.pendingDelete?.monsters.length === 1 ? brew.pendingDelete.monsters[0].name : 'homebrew'}?`,
     preview: previewMonster?.name ?? 'Monster',
@@ -516,7 +518,7 @@ export function App() {
                 onNotes={() => setModal('notes')}
                 onReset={resetEncounter}
                 onNew={newEncounter}
-                onImport={() => importRef.current?.click()}
+                onImport={brew.openImport}
                 onBackup={exportBackup}
               />
             }
@@ -545,7 +547,7 @@ export function App() {
           </main>
         </div>
         {modal && (
-          <Dialog title={modalTitle} wide={modal === 'preview' || modal === 'incoming'} dialogRef={dialogRef} onClose={closeModal}>
+          <Dialog title={modalTitle} wide={modal === 'preview' || modal === 'incoming' || modal === 'encounter'} dialogRef={dialogRef} onClose={closeModal}>
             {modal === 'notes' && <NotesDialog onDone={closeModal} />}
             {modal === 'preview' && previewMonster && (
               <PreviewDialog
@@ -572,6 +574,7 @@ export function App() {
                 }}
               />
             )}
+            {modal === 'encounter' && brew.nexusEncounter && <NexusEncounterDialog found={brew.nexusEncounter.found} resolved={brew.nexusEncounter.resolved} yours={encounter.heroes} mine={state.customMonsters} judge={RULESETS[DEFAULT_RULES].difficulty} onCreate={brew.createNexusEncounter} />}
             {modal === 'link' && brew.linkToCopy && <ShareLinkDialog name={brew.linkToCopy.name} url={brew.linkToCopy.url} onDone={closeModal} />}
             {modal === 'delete' && brew.pendingDelete && (
               <DeleteHomebrewDialog

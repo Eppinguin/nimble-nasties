@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import type { Monster } from '../lib/types.ts';
+import type { Hero, Monster } from '../lib/types.ts';
 import type { NemesesState, NemesisEncounter } from '../lib/board.ts';
-import { exportJson, uid } from '../lib/board.ts';
+import { createEncounter, exportJson, spawnCard, uid } from '../lib/board.ts';
 import { duplicateHomebrew, forExport, stamped } from '../lib/homebrew.ts';
 import { partyLevel } from '../lib/party.ts';
 import { plural } from '../lib/summons.ts';
 import { blankDraft, monsterToDraft, LEVEL_ROWS } from '../lib/forge.ts';
 import type { ForgeDraft } from '../lib/forge.ts';
 import { MONSTER_FORMAT, decodeMonster, mergeMonsters, sameMonster, shareUrl, sharedPayload } from '../lib/share.ts';
-import { fetchNexus, nexusTarget } from '../lib/nexus.ts';
-import type { NexusTarget } from '../lib/nexus.ts';
+import { bundledTwin, fetchNexus, fetchNexusEncounter, nexusTarget } from '../lib/nexus.ts';
+import type { NexusEncounter, NexusTarget } from '../lib/nexus.ts';
+import type { ResolvedEntry } from '../dialogs/NexusEncounterDialog.tsx';
 import { readImport } from '../lib/importing.ts';
 import type { ImportLinkState } from '../dialogs/LinkDialogs.tsx';
 import type { Library } from '../library/useLibrary.ts';
@@ -47,6 +48,8 @@ export function useHomebrew({ state, library, encounter, commit, notify, setToas
   const [pendingDelete, setPendingDelete] = useState<{ monsters: Monster[]; back: Modal } | null>(null);
   // A link arriving mid-forge waits for the forge to close instead of discarding the draft.
   const waitingIncoming = useRef<Monster | null>(null);
+  // A Nimble Nexus encounter waiting on its party and counts, before it becomes yours.
+  const [nexusEncounter, setNexusEncounter] = useState<{ found: NexusEncounter; resolved: ResolvedEntry[] } | null>(null);
   // The Import dialog's Nexus request; closing the dialog cancels it.
   const nexusRequest = useRef<AbortController | null>(null);
   const incomingMine = incoming ? state.customMonsters.find((m) => m.id === incoming.monster.id) : undefined;
@@ -126,11 +129,18 @@ export function useHomebrew({ state, library, encounter, commit, notify, setToas
     if (monster) showIncoming(monster);
     else notify('This monster link is cut short or damaged. Ask for a fresh one.');
   }
-  /** A Nimble Nexus monster opens like a shared link; a collection joins the library.
-   *  Resolves to the failure message, so the caller decides where to show it; a
-   *  cancelled request resolves to null and imports nothing. */
+  /** A Nimble Nexus monster opens like a shared link; a collection joins the library;
+   *  an encounter opens its preview to fit your party. Resolves to the failure message,
+   *  so the caller decides where to show it; a cancelled request resolves to null and imports nothing. */
   async function loadNexus(target: NexusTarget, signal?: AbortSignal): Promise<string | null> {
     try {
+      if (target.kind === 'encounters') {
+        const found = await fetchNexusEncounter(target.id, signal);
+        setToast((t) => (t?.message.startsWith('Fetching') ? null : t));
+        setNexusEncounter({ found, resolved: found.entries.map(({ monster }) => resolveNexus(monster)) });
+        setModal('encounter');
+        return null;
+      }
       const monsters = await fetchNexus(target, signal);
       setToast((t) => (t?.message.startsWith('Fetching') ? null : t));
       setModal((m) => (m === 'import' ? null : m));
@@ -142,9 +152,39 @@ export function useHomebrew({ state, library, encounter, commit, notify, setToas
     }
   }
   async function openNexus(target: NexusTarget) {
-    notify(`Fetching the ${target.kind === 'collections' ? 'collection' : 'monster'} from Nimble Nexus…`);
+    notify(`Fetching the ${{ monsters: 'monster', collections: 'collection', encounters: 'encounter' }[target.kind]} from Nimble Nexus…`);
     const error = await loadNexus(target);
     if (error) notify(error);
+  }
+  /** Nexus hosts the GMG bestiary too: its copies field the bundled stat block. */
+  function resolveNexus(monster: Monster): ResolvedEntry {
+    const twin = bundledTwin(monster, library);
+    return twin ? { monster: twin, official: true } : { monster: stamped(monster, 'nexus'), official: false };
+  }
+  /** The encounter becomes a new one of yours, its homebrew joins the library (updating
+   *  earlier imports of the same monsters), all in one undo step. Its Nexus description
+   *  and the party it was built for go in the session notes. */
+  function createNexusEncounter(heroes: Hero[], counts: number[]) {
+    if (!nexusEncounter) return;
+    const { found, resolved } = nexusEncounter;
+    const fielded = resolved.map((r, i) => ({ ...r, count: counts[i] ?? 0 })).filter((r) => r.count > 0);
+    const homebrew = [...new Map(fielded.filter((r) => !r.official).map((r) => [r.monster.id, r.monster])).values()];
+    const base = createEncounter(found.name, heroes);
+    const credit = `From Nimble Nexus${found.author ? `, by ${found.author}` : ''}: ${found.url}\nBuilt for ${found.heroCount} ${found.heroCount === 1 ? 'hero' : 'heroes'} at level ${found.heroLevel}.`;
+    const encounter: NemesisEncounter = {
+      ...base,
+      description: found.description,
+      notes: [found.description, credit].filter(Boolean).join('\n\n'),
+      order: [...new Set(fielded.map((r) => r.monster.id))],
+      cards: fielded.flatMap((r) => Array.from({ length: r.count }, () => spawnCard(r.monster, heroes.length))),
+    };
+    const merged = mergeMonsters(state.customMonsters, homebrew);
+    const brewNote = [merged.added && `${merged.added} homebrew ${plural('monster', merged.added)} added`, merged.updated && `${merged.updated} updated`].filter(Boolean).join(', ');
+    const label = `${found.name} imported from Nimble Nexus${brewNote ? ` · ${brewNote}` : ''}`;
+    const step = commit(label, (s) => ({ ...s, encounters: [...s.encounters, encounter], activeId: encounter.id, customMonsters: mergeMonsters(s.customMonsters, homebrew).next }));
+    setModal(null);
+    setNexusEncounter(null);
+    notify(label, { undo: step });
   }
   /** Save a shared monster: as new, over your own version, or beside it. */
   function saveIncoming(add: boolean) {
@@ -215,7 +255,7 @@ export function useHomebrew({ state, library, encounter, commit, notify, setToas
     const { text } = importLink;
     const payload = sharedPayload(text);
     const nexus = nexusTarget(text);
-    if (!payload && !nexus) return setImportLink({ text, error: text.trim() ? "That isn't a monster link Nimble Nasties can read. Paste a shared monster link or a Nimble Nexus monster or collection page." : 'Paste a link first.' });
+    if (!payload && !nexus) return setImportLink({ text, error: text.trim() ? "That isn't a link Nimble Nasties can read. Paste a shared monster link, or a Nimble Nexus monster, collection or encounter page." : 'Paste a link first.' });
     if (payload) {
       setModal(null);
       return void openShared(payload);
@@ -313,6 +353,8 @@ export function useHomebrew({ state, library, encounter, commit, notify, setToas
     importFile,
     openShared,
     openNexus,
+    nexusEncounter,
+    createNexusEncounter,
     linkToCopy,
     shareMonster,
     shareHomebrew,

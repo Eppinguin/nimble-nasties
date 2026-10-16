@@ -249,7 +249,7 @@ export function EncounterPicker({
             </button>
             <button
               class="picker-import"
-              title="Import encounter JSON"
+              title="Import an encounter from Nimble Nexus or a file"
               onClick={() => {
                 setOpen(false);
                 onImport();
