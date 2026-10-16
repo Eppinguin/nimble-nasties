@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output
+dist
+dist-e2e
+*.tsbuildinfo
+
+# Playwright
+test-results
+playwright-report
+blob-report
+playwright/.cache
+
+# Env and local overrides
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Claude Code local state
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Impeccable scratch output (screenshots and question logs; design.json stays tracked)
+.impeccable/review
+.impeccable/questions
+
+# Editor and OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

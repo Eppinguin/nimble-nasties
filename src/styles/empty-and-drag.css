@@ -1,0 +1,126 @@
+/* ---------- Empty & drag ---------- */
+.empty-combat {
+  margin: auto;
+  max-width: 440px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ink-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.empty-combat > svg {
+  color: var(--signal-text);
+}
+.empty-combat h3 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--ink);
+}
+.empty-hint {
+  font-size: 17px;
+}
+.empty-drop-preview:empty {
+  display: none;
+}
+.empty-drop-preview {
+  padding: 10px 16px;
+  border: 2px dashed var(--signal-line);
+  border-radius: 8px;
+  background: var(--signal-wash);
+  color: var(--signal-text);
+  font-weight: 800;
+}
+.drop-instruction {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--sheet);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow-pop);
+  pointer-events: none;
+}
+.lane-insert-preview {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 2px dashed var(--signal-line);
+  border-radius: var(--radius);
+  background: var(--signal-wash);
+  color: var(--ink);
+}
+.insert-preview-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--bar);
+  color: var(--bar-text);
+}
+.insert-preview-band strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+}
+.insert-preview-band span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bar-soft);
+}
+.insert-preview-tracker {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+.insert-preview-meta,
+.insert-preview-hint {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.roster-insert-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 12px;
+  padding: 10px;
+  border: 2px dashed var(--signal-line);
+  border-radius: 6px;
+  background: var(--signal-wash);
+  color: var(--signal-text);
+  font-weight: 700;
+}
+.drag-preview-ghost {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 240px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #15110e;
+  color: #fffaf0;
+  box-shadow: 0 16px 30px -10px rgb(0 0 0 / 0.5);
+}
+.drag-preview-ghost strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+}
+.drag-preview-ghost span {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #bcae9c;
+}

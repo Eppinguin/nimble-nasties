@@ -1,0 +1,203 @@
+/* ---------- Shell ---------- */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+.workspace {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Masthead: always ink, the logo's own ground. */
+.app-header {
+  background: #11100e;
+  color: #fffaf0;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 64px;
+  padding: 0 16px 0 14px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 30;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.header-brand {
+  display: flex;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+/* The logo sticker is a little taller than the masthead: its bottom edge (the
+ * lightning stroke, the base of NASTIES) hangs over onto the strip, while the
+ * layout keeps the masthead's 64px. */
+.header-logo {
+  display: block;
+  transform: rotate(-2deg);
+  transform-origin: 40% 30%;
+  transition: transform 0.35s var(--ease-out);
+}
+.header-logo img {
+  display: block;
+  height: 78px;
+  width: auto;
+  margin: 2px 0 -16px -2px;
+  filter: drop-shadow(0 2px 2px rgb(20 12 6 / 0.25));
+}
+.header-brand:hover .header-logo {
+  transform: rotate(-4deg);
+}
+.header-divider {
+  width: 1px;
+  height: 30px;
+  background: #3a322b;
+  flex-shrink: 0;
+}
+
+.encounter-switcher {
+  position: relative;
+  min-width: 0;
+}
+.encounter-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  max-width: 420px;
+  padding: 0 10px 0 12px;
+  border: 1px solid #3a322b;
+  border-radius: 6px;
+  color: #fffaf0;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+.encounter-switch:hover {
+  background: #1f1a16;
+  border-color: #5a4d41;
+}
+.encounter-switch.open {
+  border-color: var(--signal-line);
+  background: #1f1a16;
+}
+.switch-content {
+  min-width: 0;
+}
+.switch-content strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.switch-chevron {
+  color: #bcae9c;
+  transition: transform 0.2s var(--ease-out);
+}
+.encounter-switch.open .switch-chevron {
+  transform: rotate(180deg);
+}
+
+.difficulty-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid #3a322b;
+  border-radius: 999px;
+  color: #fffaf0;
+  font-size: 15px;
+}
+.difficulty-shortcut:hover {
+  border-color: #5a4d41;
+  background: #1f1a16;
+}
+.difficulty-shortcut b {
+  font-weight: 700;
+}
+.difficulty-shortcut small {
+  color: #bcae9c;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.difficulty-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #8a7c6c;
+}
+[data-difficulty='easy'] .difficulty-dot {
+  background: #79bf72;
+}
+[data-difficulty='medium'] .difficulty-dot {
+  background: #e3b33a;
+}
+[data-difficulty='hard'] .difficulty-dot {
+  background: #f08a45;
+}
+[data-difficulty='deadly'] .difficulty-dot {
+  background: #ff5a4a;
+  box-shadow: 0 0 0 3px rgb(255 90 74 / 0.25);
+}
+
+.app-header .desktop-add-trigger {
+  background: var(--signal);
+  color: var(--on-signal);
+  border: 0;
+}
+.app-header .desktop-add-trigger:hover {
+  background: var(--signal-hover);
+}
+.app-header .desktop-add-trigger[aria-expanded='true'] {
+  background: transparent;
+  color: #fffaf0;
+  border: 1px solid #5a4d41;
+}
+.header-rules {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: #e6dccb;
+  font-size: 15px;
+  font-weight: 600;
+}
+.header-rules:hover {
+  background: #1f1a16;
+  color: #fffaf0;
+}
+.header-icon {
+  min-width: 40px;
+  justify-content: center;
+}
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+  transition: none !important;
+}
+.modal:focus {
+  outline: none;
+}

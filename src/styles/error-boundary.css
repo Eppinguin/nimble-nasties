@@ -1,0 +1,39 @@
+/* Error boundary fallback */
+.crash {
+  max-width: 560px;
+  margin: 12vh auto;
+  padding: 0 16px;
+  color: var(--ink);
+}
+.crash h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  margin: 0 0 12px;
+}
+.crash p {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.crash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+.crash-hint {
+  font-size: 15px;
+}
+.crash details {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.crash pre {
+  overflow-x: auto;
+  padding: 12px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--sheet);
+  white-space: pre-wrap;
+}

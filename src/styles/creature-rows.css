@@ -1,0 +1,361 @@
+/* ---------- Creature rows ---------- */
+.instance-list {
+  display: flex;
+  flex-direction: column;
+}
+.creature-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  grid-template-areas: 'turn main hp' '. ruler ruler' 'picker picker picker';
+  align-items: center;
+  column-gap: 8px;
+  padding: 6px 10px 7px 12px;
+  border-bottom: 1px solid var(--rule);
+  transition: background-color 0.2s;
+}
+.creature-row:hover {
+  background: color-mix(in srgb, var(--sheet-2) 60%, transparent);
+}
+.turn-box {
+  grid-area: turn;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--sheet);
+  color: var(--sheet);
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.15s var(--ease-out);
+}
+.turn-box:hover {
+  border-color: var(--ink-3);
+}
+.turn-box[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--sheet);
+  animation: stamp 0.28s var(--ease-out);
+}
+@keyframes stamp {
+  0% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.creature-main {
+  grid-area: main;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.creature-line {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.creature-name {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  margin-left: -6px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+.creature-name:hover {
+  border-color: var(--rule);
+}
+.creature-name:focus {
+  border-color: var(--signal-line);
+  background: var(--sheet);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+}
+.has-acted .creature-name {
+  color: var(--ink-3);
+}
+/* A summoned creature arrives in a wash that settles into the sheet. */
+.creature-row.is-fresh {
+  animation: summon-in 1.3s var(--ease-out);
+}
+.creature-row.is-fresh .turn-box {
+  animation: stamp 0.3s var(--ease-out);
+}
+@keyframes summon-in {
+  from {
+    background-color: var(--signal-wash);
+  }
+}
+
+.hp-value {
+  grid-area: hp;
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+.hp-command input {
+  width: calc(var(--digits, 2) * 0.56em + 14px);
+  min-width: 52px;
+  height: 38px;
+  padding: 0 6px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--sheet-2);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--hp-ok);
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    color 0.2s;
+}
+.hp-command input:hover {
+  border-color: var(--rule-strong);
+}
+.hp-command input:focus {
+  width: 6ch;
+  border-color: var(--signal-line);
+  background: var(--sheet);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+  text-align: left;
+}
+.hp-max {
+  min-width: 3ch;
+  color: var(--ink-3);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hp-entry-help {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 12;
+  width: max-content;
+  max-width: 280px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--sheet);
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: var(--shadow-pop);
+}
+.hp-entry-help b {
+  color: var(--signal-inverse);
+  font-weight: 800;
+}
+
+.hp-ruler {
+  grid-area: ruler;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.hp-ruler span {
+  display: block;
+  height: 100%;
+  background: var(--hp-ok);
+  transform-origin: left;
+  transition:
+    transform 0.4s var(--ease-out),
+    background-color 0.3s;
+}
+
+.creature-row[data-hp='bloodied'] .hp-command input {
+  color: var(--bloodied);
+}
+.creature-row[data-hp='bloodied'] .hp-ruler span {
+  background: var(--bloodied-fill);
+}
+.creature-row[data-hp='laststand'] .hp-command input {
+  color: var(--laststand);
+}
+.creature-row[data-hp='laststand'] .hp-ruler {
+  background: color-mix(in srgb, var(--laststand-fill) 22%, var(--rule));
+}
+.creature-row[data-hp='laststand'] {
+  background: color-mix(in srgb, var(--laststand-fill) 7%, transparent);
+}
+.creature-row[data-hp='down'] {
+  opacity: 0.6;
+}
+.creature-row[data-hp='down'] .creature-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.creature-row[data-hp='down'] .turn-box {
+  background: var(--sheet-3);
+  border-color: var(--sheet-3);
+  color: var(--ink-3);
+}
+
+.conditions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 1px;
+}
+.hp-state {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin-right: 2px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.hp-state-bloodied {
+  color: var(--bloodied);
+}
+.hp-state-laststand {
+  color: var(--laststand);
+}
+.hp-state-down {
+  color: var(--ink-3);
+}
+.condition-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 5px 0 7px;
+  border-radius: 4px;
+  background: var(--sheet-3);
+  border: 1px solid var(--rule-strong);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.condition-chip svg {
+  color: var(--ink-3);
+}
+.condition-chip:hover {
+  border-color: var(--ink-3);
+}
+.condition-chip:hover svg {
+  color: var(--ink);
+}
+
+.condition-trigger,
+.row-menu {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--ink-3);
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    opacity 0.15s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .row-menu {
+    opacity: 0;
+  }
+  .creature-row:hover .row-menu,
+  .row-menu:focus-visible {
+    opacity: 1;
+  }
+  .condition-trigger {
+    opacity: 0.75;
+  }
+  .creature-row:hover .condition-trigger,
+  .condition-trigger:focus-visible,
+  .condition-trigger[aria-expanded='true'] {
+    opacity: 1;
+  }
+}
+.is-one-hp .hp-ruler {
+  display: none;
+}
+.condition-trigger:hover,
+.row-menu:hover,
+.condition-trigger[aria-expanded='true'] {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.row-menu:hover {
+  color: var(--laststand);
+}
+
+.condition-picker {
+  grid-area: picker;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--sheet-2);
+  border: 1px solid var(--rule);
+}
+.condition-picker-head {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-2);
+}
+.condition-picker-head button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--ink-3);
+}
+.condition-picker > button {
+  height: 34px;
+  padding: 0 11px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  background: var(--sheet);
+  font-size: 15px;
+  font-weight: 600;
+}
+.condition-picker > button:hover {
+  border-color: var(--ink);
+}
+.condition-picker > .picker-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  border-color: transparent;
+  background: transparent;
+  color: var(--laststand);
+}
+.condition-picker > .picker-remove:hover {
+  border-color: var(--laststand);
+}

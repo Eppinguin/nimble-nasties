@@ -1,0 +1,27 @@
+/* Homebrew delete confirmation */
+.delete-copy {
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.delete-copy p {
+  margin: 0;
+}
+.delete-uses {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+.delete-uses li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.delete-uses span {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

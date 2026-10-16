@@ -1,0 +1,78 @@
+/* ---------- Buttons ---------- */
+.solid,
+.outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.1s;
+}
+.solid {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+.solid:hover {
+  background: var(--signal-hover);
+}
+/* Ink on brand orange sits at mid luminance; grayscale smoothing thins the stems
+ * until labels shimmer. Let the platform darken them, and give icons the same heft. */
+.solid,
+.roll-pill,
+.picker-new,
+.desktop-add-trigger,
+.toast-undo,
+.forge-surprise,
+.inline-summon b {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+.solid svg,
+.roll-pill svg,
+.toast-undo svg,
+.forge-surprise svg,
+.desktop-add-trigger svg {
+  stroke-width: 2.5;
+}
+.solid:active,
+.outline:active {
+  transform: translateY(1px);
+}
+.outline {
+  border: 1px solid var(--rule-strong);
+  background: var(--sheet);
+  color: var(--ink);
+}
+.outline:hover {
+  border-color: var(--ink-3);
+  background: var(--sheet-2);
+}
+.compact {
+  height: 40px;
+  padding: 0 14px;
+  font-size: 15px;
+}
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  color: var(--ink-2);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.icon-btn:hover {
+  background: var(--sheet-3);
+  color: var(--ink);
+}

@@ -1,0 +1,217 @@
+/* ---------- Encounter picker ---------- */
+.encounter-picker {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 50;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  max-height: min(560px, calc(100dvh - 90px));
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  background: var(--sheet);
+  color: var(--ink);
+  box-shadow: var(--shadow-pop);
+  animation: pop-in 0.2s var(--ease-out);
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.picker-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 10px 10px;
+}
+.picker-heading strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+}
+.picker-heading span {
+  color: var(--ink-3);
+  font-size: 14px;
+}
+.picker-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  margin: 0 4px 6px;
+  padding: 0 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  color: var(--ink-3);
+}
+.picker-search:focus-within {
+  border-color: var(--signal-line);
+  box-shadow: 0 0 0 3px var(--signal-wash);
+}
+.picker-search input {
+  flex: 1;
+  border: 0;
+  background: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--ink);
+}
+.picker-list {
+  overflow-y: auto;
+  min-height: 0;
+}
+.encounter-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-radius: 6px;
+}
+.encounter-item:hover {
+  background: var(--sheet-2);
+}
+.encounter-item.selected {
+  background: var(--signal-wash);
+}
+.encounter-choice {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  text-align: left;
+  border-radius: 6px;
+}
+.choice-details {
+  flex: 1;
+  min-width: 0;
+}
+.choice-details strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.choice-details small {
+  color: var(--ink-3);
+  font-size: 14px;
+}
+.encounter-choice > svg {
+  color: var(--signal-text);
+}
+.encounter-row-more {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 4px;
+  border-radius: 6px;
+  color: var(--ink-3);
+}
+.encounter-row-more:hover,
+.encounter-row-more[aria-expanded='true'] {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.encounter-row-menu {
+  flex-basis: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 2px 8px 10px;
+}
+.encounter-row-menu > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 5px;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+}
+.encounter-row-menu > button:hover {
+  border-color: var(--rule-strong);
+  background: var(--sheet-2);
+}
+.encounter-row-menu .picker-danger {
+  color: var(--laststand);
+}
+.picker-rename {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+}
+.picker-rename input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--signal-line);
+  border-radius: 5px;
+  background: var(--sheet);
+  font-size: 16px;
+  outline: none;
+}
+.picker-rename button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+.picker-rename button:hover {
+  background: var(--sheet-3);
+}
+.picker-empty {
+  padding: 16px 10px;
+  color: var(--ink-3);
+}
+.picker-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 10px 4px 2px;
+  border-top: 1px solid var(--rule);
+}
+.picker-new,
+.picker-import {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.picker-new {
+  flex: 1;
+  justify-content: center;
+  background: var(--signal);
+  color: var(--on-signal);
+}
+.picker-new:hover {
+  background: var(--signal-hover);
+}
+.picker-import {
+  border: 1px solid var(--rule-strong);
+}
+.picker-import:hover {
+  border-color: var(--ink-3);
+}

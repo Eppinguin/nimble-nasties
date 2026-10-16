@@ -1,0 +1,490 @@
+/* ---------- Minion hordes: packs of tokens, one turn mark and one pool per pack ---------- */
+.horde {
+  border-bottom: 1px solid var(--rule);
+}
+.pack {
+  padding: 8px 10px 9px 12px;
+  transition: background-color 0.15s;
+}
+.pack + .pack {
+  border-top: 1px solid var(--rule);
+}
+.pack[data-drop] {
+  background: var(--signal-wash);
+  outline: 2px dashed var(--signal-line);
+  outline-offset: -2px;
+}
+.pack-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+.pack-head .turn-box:disabled {
+  background: var(--sheet-3);
+  border-color: var(--sheet-3);
+}
+.pack-name {
+  flex: none;
+  max-width: 14ch;
+  height: 30px;
+  margin-left: -4px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 17px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+.pack-name:hover {
+  border-color: var(--rule);
+}
+.pack-name:focus {
+  border-color: var(--signal-line);
+  background: var(--sheet);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+}
+.pack-count {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.pack-count b {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 800;
+}
+.pack-standing,
+.pack-left,
+.pack-count em {
+  white-space: nowrap;
+}
+.pack-left {
+  margin: 0;
+}
+.pack-count em {
+  margin: 0;
+  color: var(--ink-3);
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.pack[data-done] .pack-count em {
+  color: var(--ink-2);
+}
+.pack-hit {
+  flex: none;
+  width: 66px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--sheet-2);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.pack-hit::placeholder {
+  color: var(--ink-3);
+}
+.pack-hit:hover:not(:disabled) {
+  border-color: var(--rule-strong);
+}
+.pack-hit:focus {
+  border-color: var(--signal-line);
+  background: var(--sheet);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+}
+.pack-hit:disabled {
+  opacity: 0.55;
+}
+.pack-more {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin-right: -4px;
+}
+.pack-more[aria-expanded='true'] {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.pack-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--sheet-2);
+}
+.pack-menu > span {
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.pack-menu button {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  background: var(--sheet);
+  font-size: 15px;
+  font-weight: 700;
+}
+.pack-menu button:hover {
+  border-color: var(--ink);
+}
+.pack-menu .pack-split {
+  margin-left: auto;
+}
+
+.horde-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.horde-token {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--rule-strong);
+  border-radius: 50%;
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  touch-action: manipulation;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    opacity 0.15s;
+}
+.horde-token:hover {
+  border-color: var(--ink-3);
+}
+/* Ready minions stand out; those that acted sink into the sheet; the fallen are a dashed skull. */
+.horde-token[data-state='acted'] {
+  background: var(--sheet-3);
+  border-color: var(--sheet-3);
+  color: var(--ink-3);
+}
+.horde-token.is-stamped {
+  animation: stamp 0.28s var(--ease-out);
+}
+.horde-token[data-state='down'] {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--rule-strong);
+  color: var(--ink-3);
+  opacity: 0.6;
+  animation: stamp 0.25s var(--ease-out);
+}
+.horde-token[data-picked] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--sheet);
+  opacity: 1;
+  transition: none;
+}
+.horde-token[data-conditions]::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--sheet);
+}
+.horde-token.is-fresh {
+  animation: summon-in 1.3s var(--ease-out);
+}
+.horde-token[draggable='true'] {
+  cursor: grab;
+}
+.is-arranging .horde-token {
+  cursor: pointer;
+}
+
+.pack-rolls {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+.pack-roll {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.pack-roll > span {
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.horde-roll .edge-btn {
+  display: grid;
+  place-items: center;
+}
+.horde-roll[data-done] .roll-pill {
+  background: var(--sheet-3);
+  color: var(--ink-2);
+  cursor: default;
+  opacity: 1;
+}
+.horde-roll[data-done] {
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+/* Already acted: still rollable, but the pill steps down to a wash until you reach for it.
+ * Shared by acted minion packs and every roll in a stat block whose creatures have all acted. */
+.horde-roll[data-extra] .roll-pill,
+.monster-lane[data-spent] .roll-pill:not(:disabled) {
+  background: var(--signal-wash);
+  color: var(--signal-text);
+}
+.horde-roll[data-extra] .roll-pill:hover,
+.monster-lane[data-spent] .roll-pill:not(:disabled):hover {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+
+.pack-log {
+  display: grid;
+  gap: 2px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pack-log li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 28px;
+  padding-left: 2px;
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.pack-log li > span {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 4px;
+}
+.pack-log li svg {
+  color: var(--ink-3);
+}
+.pack-log b {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.pack-log li[data-miss] b {
+  color: var(--ink-3);
+}
+.pack-log small {
+  color: var(--ink-3);
+  font-size: 13px;
+}
+.pack-log-undo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--ink-3);
+}
+.pack-log-undo:hover {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+
+.horde-move {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 8px 10px 8px 12px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--sheet-2);
+}
+.horde-move-count {
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 600;
+}
+.horde-move-count b {
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.horde-move-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+.horde-move-targets button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  background: var(--sheet);
+  font-size: 15px;
+  font-weight: 700;
+}
+.horde-move-targets button:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+.horde-move-targets button:disabled {
+  opacity: 0.5;
+}
+.horde-move-targets .horde-move-done {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--sheet);
+}
+.pack-new-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  margin: 0 12px 10px;
+  border: 2px dashed var(--signal-line);
+  border-radius: 6px;
+  color: var(--signal-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+.pack-new-drop[data-drop] {
+  background: var(--signal-wash);
+}
+
+.rules-copy .rule-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--sheet);
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+.rules-copy .rule-switch:hover {
+  background: var(--sheet-2);
+}
+.rules-copy .rule-switch:has(input:focus-visible) {
+  outline: 2px solid var(--signal-line);
+  outline-offset: -2px;
+}
+.rules-copy .rule-switch input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--ink);
+}
+.rules-copy .rule-switch span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.rules-copy .rule-switch strong {
+  font-size: 17px;
+  font-weight: 800;
+}
+.rules-copy .rule-switch small {
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.lane-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 4px;
+  padding: 4px 8px;
+}
+.roster-toggle,
+.add-copy {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 5px;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.roster-toggle:hover {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.add-copy:hover {
+  color: var(--signal-text);
+  background: var(--signal-wash);
+}
+.inline-summon b {
+  min-width: 24px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--signal);
+  color: var(--on-signal);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  text-align: center;
+  transition:
+    background-color 0.12s,
+    color 0.12s;
+}
+.inline-summon:hover b {
+  background: var(--ink);
+  color: var(--sheet);
+}

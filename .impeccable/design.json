@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T12:00:00+00:00",
+  "title": "Design System: Nimble Nasties",
+  "extensions": {
+    "colorMeta": {
+      "signal": {
+        "role": "primary",
+        "displayName": "Nimble Tangerine",
+        "canonical": "#ff7a33",
+        "oklch": "oklch(71.6% 0.181 45.6)"
+      },
+      "signal-hover": {
+        "role": "primary",
+        "displayName": "Flare Orange",
+        "canonical": "#ff8a4d",
+        "oklch": "oklch(75.0% 0.159 47.5)"
+      },
+      "signal-line": {
+        "role": "primary",
+        "displayName": "Tangerine Line",
+        "canonical": "#e8590c",
+        "oklch": "oklch(63.4% 0.196 41.6)"
+      },
+      "signal-inverse": {
+        "role": "primary",
+        "displayName": "Signal Inverse",
+        "canonical": "#ff7a33",
+        "oklch": "oklch(71.6% 0.181 45.6)"
+      },
+      "on-signal": {
+        "role": "primary",
+        "displayName": "Ink on Signal",
+        "canonical": "#0a0705",
+        "oklch": "oklch(18.1% 0.009 59.0)",
+        "tonalRamp": ["#0e0a08", "#272320", "#433f3b", "#625c59", "#817c78", "#a39d99", "#c9c3be", "#f3ede9"]
+      },
+      "signal-text": {
+        "role": "primary",
+        "displayName": "Ember Text",
+        "canonical": "#a83307",
+        "oklch": "oklch(49.2% 0.160 37.2)",
+        "tonalRamp": ["#1e0100", "#450d00", "#731d00", "#a42f00", "#c9522f", "#f07551", "#fcae97", "#ffe9e3"],
+        "darkValue": "#ff8a4d"
+      },
+      "signal-wash": {
+        "role": "primary",
+        "displayName": "Signal Wash",
+        "canonical": "#ffe8d6",
+        "oklch": "oklch(94.5% 0.035 60.4)",
+        "tonalRamp": ["#150700", "#302012", "#4e3c2d", "#6d594a", "#8d7969", "#af9a89", "#d6bfae", "#feeadb"],
+        "darkValue": "#3b1e0e"
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Table Ground",
+        "canonical": "#e9e0d1",
+        "oklch": "oklch(91.0% 0.022 80.7)",
+        "tonalRamp": ["#100a02", "#2a2318", "#463f32", "#645d50", "#847c6f", "#a69d8f", "#ccc3b4", "#f6edde"],
+        "darkValue": "#090706"
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Ivory Sheet",
+        "canonical": "#fffaf0",
+        "oklch": "oklch(98.6% 0.014 84.6)",
+        "tonalRamp": ["#0e0b05", "#27241c", "#433f37", "#615d55", "#817d74", "#a29e95", "#c8c4ba", "#f3eee4"],
+        "darkValue": "#211b16"
+      },
+      "sheet-2": {
+        "role": "neutral",
+        "displayName": "Sheet Shade",
+        "canonical": "#f5eddf",
+        "oklch": "oklch(94.9% 0.020 81.8)",
+        "tonalRamp": ["#0f0a03", "#292319", "#453f34", "#635d51", "#837c70", "#a59d90", "#cbc3b6", "#f5eddf"],
+        "darkValue": "#2a231d"
+      },
+      "sheet-3": {
+        "role": "neutral",
+        "displayName": "Sheet Deep",
+        "canonical": "#ece2d1",
+        "oklch": "oklch(91.6% 0.025 81.1)",
+        "tonalRamp": ["#110a02", "#2a2316", "#473f31", "#655c4e", "#857c6d", "#a79d8d", "#cdc3b2", "#f7eddc"],
+        "darkValue": "#342b24"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Bestiary Ink",
+        "canonical": "#15110e",
+        "oklch": "oklch(18.1% 0.009 59.0)",
+        "tonalRamp": ["#0e0a08", "#272320", "#433f3b", "#625c59", "#817c78", "#a39d99", "#c9c3be", "#f3ede9"],
+        "darkValue": "#f3ead8"
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#4b4139",
+        "oklch": "oklch(38.3% 0.019 60.9)",
+        "tonalRamp": ["#110904", "#2b221b", "#473e36", "#665b53", "#867b72", "#a89c93", "#cec2b8", "#f9ece2"],
+        "darkValue": "#d0c4b2"
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink Faint",
+        "canonical": "#6d6155",
+        "oklch": "oklch(50.0% 0.024 67.2)",
+        "tonalRamp": ["#120902", "#2c2217", "#493d32", "#675b4f", "#877b6e", "#a99c8f", "#cfc2b4", "#faecde"],
+        "darkValue": "#a29482"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e4d9c8",
+        "oklch": "oklch(89.0% 0.026 78.9)",
+        "tonalRamp": ["#110a01", "#2b2316", "#473e30", "#665c4d", "#867c6c", "#a79d8d", "#cdc3b2", "#f8eddc"],
+        "darkValue": "#2f2822"
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Hairline Strong",
+        "canonical": "#cdbca6",
+        "oklch": "oklch(80.4% 0.036 74.3)",
+        "tonalRamp": ["#140800", "#2e210f", "#4b3d2a", "#6a5b47", "#8a7b66", "#ac9c86", "#d2c1ab", "#fdecd5"],
+        "darkValue": "#463c33"
+      },
+      "bar": {
+        "role": "neutral",
+        "displayName": "Name Bar",
+        "canonical": "#15110e",
+        "oklch": "oklch(18.1% 0.009 59.0)",
+        "tonalRamp": ["#0e0a08", "#272320", "#433f3b", "#625c59", "#817c78", "#a39d99", "#c9c3be", "#f3ede9"],
+        "darkValue": "#050403"
+      },
+      "bar-2": {
+        "role": "neutral",
+        "displayName": "Name Bar Hover",
+        "canonical": "#2a231d",
+        "oklch": "oklch(26.2% 0.015 62.7)",
+        "tonalRamp": ["#100a05", "#29231d", "#463e38", "#645c55", "#847b74", "#a69d95", "#ccc2ba", "#f6ede4"],
+        "darkValue": "#1c1713"
+      },
+      "bar-text": {
+        "role": "neutral",
+        "displayName": "Name Bar Text",
+        "canonical": "#fffaf0",
+        "oklch": "oklch(98.6% 0.014 84.6)",
+        "tonalRamp": ["#0e0b05", "#27241c", "#433f37", "#615d55", "#817d74", "#a29e95", "#c8c4ba", "#f3eee4"]
+      },
+      "bar-soft": {
+        "role": "neutral",
+        "displayName": "Name Bar Soft",
+        "canonical": "#bcae9c",
+        "oklch": "oklch(75.8% 0.030 74.2)",
+        "tonalRamp": ["#120900", "#2d2213", "#493e2e", "#685b4b", "#887b6a", "#aa9c8a", "#d0c2af", "#fbecd9"]
+      },
+      "masthead": {
+        "role": "neutral",
+        "displayName": "Masthead Ink",
+        "canonical": "#11100e",
+        "oklch": "oklch(17.3% 0.004 84.6)",
+        "tonalRamp": ["#0c0b09", "#252422", "#41403d", "#5f5d5b", "#7e7d7a", "#a09e9b", "#c5c4c1", "#f0eeeb"]
+      },
+      "masthead-edge": {
+        "role": "neutral",
+        "displayName": "Masthead Edge",
+        "canonical": "#3a322b",
+        "oklch": "oklch(32.3% 0.017 63.4)",
+        "tonalRamp": ["#100a05", "#2a221c", "#463e37", "#655c54", "#857b73", "#a69c94", "#ccc2b9", "#f7ece3"]
+      },
+      "masthead-hover": {
+        "role": "neutral",
+        "displayName": "Masthead Hover",
+        "canonical": "#1f1a16",
+        "oklch": "oklch(22.2% 0.011 60.9)",
+        "tonalRamp": ["#0f0a07", "#28231f", "#443e3a", "#625c57", "#827c77", "#a49d98", "#cac3bd", "#f4ede7"]
+      },
+      "hp-ok": {
+        "role": "tertiary",
+        "displayName": "HP Ink",
+        "canonical": "#3a3029",
+        "oklch": "oklch(31.8% 0.019 57.0)",
+        "tonalRamp": ["#110904", "#2b221b", "#483d36", "#665b53", "#867b73", "#a89c93", "#cec1b9", "#f9ece3"],
+        "darkValue": "#e2d6c3"
+      },
+      "bloodied": {
+        "role": "tertiary",
+        "displayName": "Bloodied Amber",
+        "canonical": "#9c4f00",
+        "oklch": "oklch(51.2% 0.127 55.2)",
+        "tonalRamp": ["#180600", "#3b1a00", "#633001", "#8e4804", "#b56626", "#da884b", "#feb079", "#feeadd"],
+        "darkValue": "#f2a54a"
+      },
+      "bloodied-fill": {
+        "role": "tertiary",
+        "displayName": "Bloodied Amber Fill",
+        "canonical": "#e08a1e",
+        "oklch": "oklch(70.8% 0.151 64.9)",
+        "tonalRamp": ["#160700", "#371d00", "#5d3500", "#864e00", "#b06b10", "#dd8719", "#fdb266", "#feebd9"],
+        "darkValue": "#e8922a"
+      },
+      "laststand": {
+        "role": "tertiary",
+        "displayName": "Last Stand Red",
+        "canonical": "#b3160b",
+        "oklch": "oklch(49.0% 0.190 29.7)",
+        "tonalRamp": ["#200000", "#4b0100", "#7b0601", "#b01006", "#d74031", "#fe6653", "#fdac9f", "#fee9e5"],
+        "darkValue": "#ff7466"
+      },
+      "laststand-fill": {
+        "role": "tertiary",
+        "displayName": "Last Stand Red Fill",
+        "canonical": "#d8261a",
+        "oklch": "oklch(56.9% 0.213 29.5)",
+        "tonalRamp": ["#200000", "#4c0000", "#7d0000", "#b20300", "#e03022", "#fa6a58", "#ffab9e", "#ffe9e5"],
+        "darkValue": "#ef3b2c"
+      },
+      "armor-accent": {
+        "role": "tertiary",
+        "displayName": "Armor Peach",
+        "canonical": "#ffb37f",
+        "oklch": "oklch(82.8% 0.112 54.9)",
+        "tonalRamp": ["#190500", "#3a1a01", "#623106", "#8c490f", "#af6a36", "#d48b58", "#fcb17d", "#ffeadc"]
+      },
+      "difficulty-easy": {
+        "role": "tertiary",
+        "displayName": "Difficulty Easy",
+        "canonical": "#79bf72",
+        "oklch": "oklch(73.9% 0.129 142.1)",
+        "tonalRamp": ["#001000", "#032d01", "#0b4e06", "#2a6f24", "#4b9045", "#6db266", "#92d98b", "#ccffc6"]
+      },
+      "difficulty-medium": {
+        "role": "tertiary",
+        "displayName": "Difficulty Medium",
+        "canonical": "#e3b33a",
+        "oklch": "oklch(79.0% 0.143 86.1)",
+        "tonalRamp": ["#120900", "#2f2201", "#513c04", "#75590b", "#9d7700", "#c69703", "#edbd46", "#feedc7"]
+      },
+      "difficulty-hard": {
+        "role": "tertiary",
+        "displayName": "Difficulty Hard",
+        "canonical": "#f08a45",
+        "oklch": "oklch(73.1% 0.149 52.1)",
+        "tonalRamp": ["#190500", "#3c1901", "#642f05", "#8f470e", "#c05e07", "#e5803a", "#fcb083", "#ffeade"]
+      },
+      "difficulty-deadly": {
+        "role": "tertiary",
+        "displayName": "Difficulty Deadly",
+        "canonical": "#ff5a4a",
+        "oklch": "oklch(68.6% 0.203 28.9)",
+        "tonalRamp": ["#210000", "#4b0101", "#7b0806", "#af130e", "#dc372b", "#fd6756", "#fcada0", "#fee9e6"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Monster names on name bars; panel and modal heads (20 to 30px). Mixed case, 900."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Round number, roll totals, budget totals, level badges. Tabular."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Ability and trait names in the stat block."
+      },
+      "hp-numeral": {
+        "displayName": "HP Numeral",
+        "purpose": "HP command field; the largest sans number on a sheet."
+      },
+      "ui": {
+        "displayName": "UI",
+        "purpose": "Buttons, creature names, menus, chips."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Ability, trait and rules text; rules copy capped at 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase tracked data labels: stat keys, ROUND, STAT BLOCK, section heads, HP state words."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-sheet",
+        "value": "0 1px 1px rgb(40 25 10 / .08), 0 8px 20px -10px rgb(40 25 10 / .35)",
+        "darkValue": "0 0 0 1px #3a3029, 0 10px 24px -12px rgb(0 0 0 / .8)",
+        "purpose": "Every monster sheet resting on the table."
+      },
+      {
+        "name": "shadow-pop",
+        "value": "0 2px 4px rgb(20 12 6 / .12), 0 18px 40px -12px rgb(20 12 6 / .45)",
+        "darkValue": "0 0 0 1px rgb(255 240 220 / .08), 0 22px 44px -12px rgb(0 0 0 / .85)",
+        "purpose": "Floating sheets: encounter picker, dice tray, modals, toasts, HP help."
+      },
+      {
+        "name": "drawer",
+        "value": "-1px 0 0 var(--rule-strong), -24px 0 48px -16px rgb(20 12 6 / .45)",
+        "purpose": "Library drawer edge and leftward fall."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px var(--signal-wash)",
+        "purpose": "Focused inputs, paired with a signal border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Default easing for meters, chevrons, drawers, pop-ins, stamps."
+      },
+      {
+        "name": "state",
+        "value": ".15s",
+        "purpose": "Hover and border/background state changes."
+      },
+      {
+        "name": "stamp",
+        "value": ".28s ease-out scale 1.25 to 1",
+        "purpose": "Turn box being marked acted."
+      },
+      {
+        "name": "pop-in",
+        "value": ".2s ease-out, translateY(-6px) and fade",
+        "purpose": "Pickers, dice tray, modals (.24s)."
+      },
+      {
+        "name": "drawer-in",
+        "value": ".32s ease-out, translateX(32px) and fade",
+        "purpose": "Library drawer entrance."
+      },
+      {
+        "name": "track",
+        "value": ".4s ease-out transform",
+        "purpose": "HP track and budget meter changes."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "durations .01ms",
+        "purpose": "All animation and transition collapsed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "medium",
+        "value": "1100px"
+      },
+      {
+        "name": "narrow",
+        "value": "790px"
+      },
+      {
+        "name": "tiny",
+        "value": "400px"
+      },
+      {
+        "name": "touch",
+        "value": "pointer: coarse"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Signal-orange action: Add monsters, Next round, Done.",
+      "html": "<button class=\"ds-btn-solid\">Next round <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-solid { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 42px; padding: 0 16px; border: 0; border-radius: 6px; background: var(--signal, #ff7a33); color: var(--on-signal, #0a0705); font-family: var(--font-ui, 'Barlow Condensed', sans-serif); font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color .15s, transform .1s; } .ds-btn-solid:hover { background: var(--signal-hover, #ff8a4d); } .ds-btn-solid:active { transform: translateY(1px); } .ds-btn-solid:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on paper: latest roll, import, cancel.",
+      "html": "<button class=\"ds-btn-outline\">Import</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 42px; padding: 0 16px; border: 1px solid var(--rule-strong, #cdbca6); border-radius: 6px; background: var(--sheet, #fffaf0); color: var(--ink, #15110e); font-family: var(--font-ui, 'Barlow Condensed', sans-serif); font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color .15s, border-color .15s, transform .1s; } .ds-btn-outline:hover { border-color: var(--ink-3, #6d6155); background: var(--sheet-2, #f5eddf); } .ds-btn-outline:active { transform: translateY(1px); } .ds-btn-outline:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Roll Pill Group",
+      "kind": "custom",
+      "refersTo": "roll-pill",
+      "description": "Attack roll with disadvantage and advantage edges.",
+      "html": "<span class=\"ds-roll\"><button class=\"ds-roll-edge\">−</button><button class=\"ds-roll-pill\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M16 8h.01M8 8h.01M8 16h.01M16 16h.01M12 12h.01\"/></svg>1d6+2</button><button class=\"ds-roll-edge\">+</button></span>",
+      "css": ".ds-roll { display: inline-flex; border-radius: 7px; overflow: hidden; font-family: var(--font-ui, 'Barlow Condensed', sans-serif); } .ds-roll button { border: 0; cursor: pointer; font: inherit; } .ds-roll-pill { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; background: var(--signal, #ff7a33); color: var(--on-signal, #0a0705); font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; transition: background-color .12s; } .ds-roll-pill:hover { background: var(--signal-hover, #ff8a4d); } .ds-roll-pill:active { background: var(--signal, #ff7a33); } .ds-roll-edge { width: 32px; height: 36px; background: var(--signal-wash, #ffe8d6); color: var(--signal-text, #a83307); font-size: 20px; font-weight: 800; line-height: 1; transition: background-color .12s; } .ds-roll-edge:first-child { border-right: 1px solid color-mix(in srgb, #ff7a33 35%, transparent); } .ds-roll-edge:last-child { border-left: 1px solid color-mix(in srgb, #ff7a33 35%, transparent); } .ds-roll-edge:hover { background: color-mix(in srgb, #ff7a33 30%, var(--signal-wash, #ffe8d6)); } .ds-roll button:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Name Bar",
+      "kind": "custom",
+      "refersTo": "lane-name-bar",
+      "description": "Black title band heading every monster sheet, with stat line and the orange strike.",
+      "html": "<header class=\"ds-namebar\"><h2>Goblin Taskmaster</h2><div class=\"ds-statline\"><span><small>Level</small><b>2</b></span><span><small>HP</small><b>30</b></span><span><small>Armor</small><b class=\"ds-armor\">Medium</b></span><span class=\"ds-family\">Goblins</span><span class=\"ds-count\">×1</span></div></header>",
+      "css": ".ds-namebar { width: 360px; padding: 12px 12px 10px 16px; background: var(--bar, #15110e); color: var(--bar-text, #fffaf0); border-bottom: 3px solid var(--signal, #ff7a33); border-radius: 4px 4px 0 0; font-family: var(--font-ui, 'Barlow Condensed', sans-serif); } .ds-namebar h2 { margin: 0; font-family: var(--font-display, Alegreya, Georgia, serif); font-size: 24px; font-weight: 900; line-height: 1.08; letter-spacing: -.005em; } .ds-statline { display: flex; align-items: flex-end; gap: 16px; margin-top: 8px; } .ds-statline > span:not(.ds-family):not(.ds-count) { display: flex; flex-direction: column; gap: 1px; } .ds-statline small { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--bar-soft, #bcae9c); line-height: 1.1; } .ds-statline b { font-size: 18px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; } .ds-armor { color: #ffb37f; } .ds-family { flex: 1; text-align: right; color: var(--bar-soft, #bcae9c); font-size: 14px; } .ds-count { align-self: center; min-width: 32px; padding: 2px 7px; border-radius: 999px; background: var(--bar-text, #fffaf0); color: var(--bar, #15110e); font-size: 15px; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "HP Field",
+      "kind": "input",
+      "refersTo": "hp-field",
+      "description": "Large tabular HP command field; color follows HP state.",
+      "html": "<span class=\"ds-hp\"><input class=\"ds-hp-input\" value=\"6\" aria-label=\"HP\"><span class=\"ds-hp-max\">/15</span></span><span class=\"ds-hp ds-bloodied\"><input class=\"ds-hp-input\" value=\"6\" aria-label=\"HP bloodied\"><span class=\"ds-hp-max\">/15</span></span>",
+      "css": ".ds-hp { display: inline-flex; align-items: baseline; gap: 2px; margin-right: 16px; font-family: var(--font-ui, 'Barlow Condensed', sans-serif); } .ds-hp-input { width: 56px; height: 42px; padding: 0 6px; border: 1px solid var(--rule, #e4d9c8); border-radius: 6px; background: var(--sheet-2, #f5eddf); font: inherit; font-size: 30px; font-weight: 700; line-height: 1; text-align: right; font-variant-numeric: tabular-nums; color: var(--hp-ok, #3a3029); transition: border-color .15s, background-color .15s; } .ds-hp-input:hover { border-color: var(--rule-strong, #cdbca6); } .ds-hp-input:focus { width: 6ch; border-color: var(--signal, #ff7a33); background: var(--sheet, #fffaf0); outline: none; box-shadow: 0 0 0 3px var(--signal-wash, #ffe8d6); text-align: left; } .ds-bloodied .ds-hp-input { color: var(--bloodied, #9c4f00); } .ds-hp-max { color: var(--ink-3, #6d6155); font-size: 15px; font-weight: 600; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "Form and search input on paper.",
+      "html": "<label class=\"ds-field\">Name<input placeholder=\"Goblin Scout\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 5px; width: 260px; font-family: var(--font-ui, 'Barlow Condensed', sans-serif); font-size: 14px; font-weight: 700; color: var(--ink-2, #4b4139); } .ds-field input { height: 42px; padding: 0 12px; border: 1px solid var(--rule-strong, #cdbca6); border-radius: 6px; background: var(--sheet-2, #f5eddf); font: inherit; font-size: 16px; font-weight: 500; color: var(--ink, #15110e); } .ds-field input::placeholder { color: var(--ink-3, #6d6155); } .ds-field input:focus { border-color: var(--signal, #ff7a33); background: var(--sheet, #fffaf0); outline: none; box-shadow: 0 0 0 3px var(--signal-wash, #ffe8d6); }"
+    },
+    {
+      "name": "Condition Chip",
+      "kind": "chip",
+      "refersTo": "condition-chip",
+      "description": "Applied condition on a creature row; click removes.",
+      "html": "<button class=\"ds-chip\">Prone<svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 5px 0 7px; border-radius: 4px; background: var(--sheet-3, #ece2d1); border: 1px solid var(--rule-strong, #cdbca6); font-family: var(--font-ui, 'Barlow Condensed', sans-serif); font-size: 13px; font-weight: 700; color: var(--ink, #15110e); cursor: pointer; } .ds-chip svg { color: var(--ink-3, #6d6155); } .ds-chip:hover { border-color: var(--ink-3, #6d6155); } .ds-chip:hover svg { color: var(--ink, #15110e); } .ds-chip:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Turn Box",
+      "kind": "custom",
+      "refersTo": "creature-row",
+      "description": "Acted marker: empty square, filled ink with a check once the creature has acted.",
+      "html": "<button class=\"ds-turn\" aria-pressed=\"false\"></button> <button class=\"ds-turn\" aria-pressed=\"true\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6 9 17l-5-5\"/></svg></button>",
+      "css": ".ds-turn { display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 2px solid var(--rule-strong, #cdbca6); border-radius: 6px; background: var(--sheet, #fffaf0); color: var(--sheet, #fffaf0); cursor: pointer; transition: background-color .15s, border-color .15s; } .ds-turn:hover { border-color: var(--ink-3, #6d6155); } .ds-turn[aria-pressed=\"true\"] { background: var(--ink, #15110e); border-color: var(--ink, #15110e); } .ds-turn:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Minion Token",
+      "kind": "custom",
+      "refersTo": "horde-token",
+      "description": "One minion in a pack: ready ivory, acted sheet-3, fallen dashed skull, picked solid ink; an ink dot marks conditions.",
+      "html": "<div class=\"ds-tokens\"><button class=\"ds-token\">1</button><button class=\"ds-token ds-cond\">2</button><button class=\"ds-token ds-acted\">3</button><button class=\"ds-token ds-down\" aria-label=\"defeated\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m12.5 17-.5-1-.5 1h1z\"/><path d=\"M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z\"/><circle cx=\"15\" cy=\"12\" r=\"1\"/><circle cx=\"9\" cy=\"12\" r=\"1\"/></svg></button><button class=\"ds-token ds-picked\">5</button></div>",
+      "css": ".ds-tokens { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--sheet, #fffaf0); } .ds-token { position: relative; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 2px solid var(--rule-strong, #cdbca6); border-radius: 50%; background: var(--sheet, #fffaf0); color: var(--ink, #15110e); font-family: var(--font-ui, 'Barlow Condensed', sans-serif); font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; } .ds-token:hover { border-color: var(--ink-3, #6d6155); } .ds-acted { background: var(--sheet-3, #ece2d1); border-color: var(--sheet-3, #ece2d1); color: var(--ink-3, #6d6155); } .ds-down { background: transparent; border-style: dashed; color: var(--ink-3, #6d6155); opacity: .6; } .ds-picked { background: var(--ink, #15110e); border-color: var(--ink, #15110e); color: var(--sheet, #fffaf0); } .ds-cond::after { content: \"\"; position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--ink, #15110e); box-shadow: 0 0 0 2px var(--sheet, #fffaf0); } .ds-token:focus-visible { outline: 2px solid var(--signal-line, #e8590c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Masthead Difficulty Chip",
+      "kind": "nav",
+      "refersTo": "masthead",
+      "description": "Pill in the always-ink masthead showing difficulty and budget.",
+      "html": "<div class=\"ds-mast\"><button class=\"ds-diff\"><span class=\"ds-dot\"></span><b>Medium</b><small>8.67/12</small></button></div>",
+      "css": ".ds-mast { display: flex; align-items: center; height: 64px; padding: 0 16px; background: #11100e; font-family: var(--font-ui, 'Barlow Condensed', sans-serif); } .ds-diff { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px; border: 1px solid #3a322b; border-radius: 999px; background: transparent; color: #fffaf0; font: inherit; font-size: 15px; cursor: pointer; } .ds-diff:hover { border-color: #5a4d41; background: #1f1a16; } .ds-diff:focus-visible { outline: 2px solid #ff7a33; outline-offset: 2px; } .ds-diff b { font-weight: 700; } .ds-diff small { color: #bcae9c; font-size: 14px; font-variant-numeric: tabular-nums; } .ds-dot { width: 9px; height: 9px; border-radius: 50%; background: #e3b33a; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bestiary Page at the Table",
+    "overview": "**Creative North Star: \"The Bestiary Page at the Table\"**\n\nThe app is a printed GMG bestiary spread laid open beside the GM screen. Each monster type is an ivory sheet standing on a warm paper table, headed by a black name bar set in heavy flared serif, with a single orange strike beneath it like the logo's lightning stroke. Creature rows sit above the printed stat lines; the stat block below reads like the book. Everything else (library, party, difficulty, dice history) arrives as a drawer or a floating sheet that leaves the page alone.\n\nDensity is high but glanceable: condensed sans for every interface word, tabular numerals everywhere a number changes, and the largest type on screen reserved for the numbers a GM needs at arm's length (round, HP, roll totals). Orange is a tool mark, not decoration. HP state speaks a reserved three-step language, ink to amber to red. The dark theme is the same sheet printed in ivory on ink, not a separate dashboard skin; the masthead is ink in both themes because it is the logo's own ground.\n\nThe system rejects the neutral-card VTT dashboard: no grey cards, no sidebar chrome, no generic accent color spread across surfaces.",
+    "keyCharacteristics": [
+      "Ivory sheets on a warm table ground, each headed by a black name bar with a 3px orange strike.",
+      "Heavy mixed-case serif (900) for names and headline numerals; condensed sans for everything else.",
+      "Orange marks only what you press or roll, the name-bar strike, and small accent text.",
+      "Tabular numerals for every changing number.",
+      "HP state in one reserved ramp: ink, amber (Bloodied), red (Last Stand).",
+      "Hairline 1px rules divide rows; corners stay small (3 to 8px)."
+    ],
+    "rules": [
+      {
+        "name": "The Press-or-Roll Rule",
+        "body": "Solid orange fills only things you can press or roll. Its other two licensed uses are the name-bar strike and small ember accent text; nothing else is orange.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Strike Rule",
+        "body": "The 3px signal rule appears only under a monster's black name bar (lane header and library preview). It is the brand mark of the sheet, not a divider style.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reserved Ramp Rule",
+        "body": "Amber means Bloodied and red means Last Stand or destruction. Never use them for decoration, categories, or generic warnings.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mixed-Case Serif Rule",
+        "body": "Display type is always mixed case at 800 to 900. Uppercase belongs only to the small tracked sans labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Every number that changes (HP, round, rolls, budget, counts) uses tabular numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper Not Glass Rule",
+        "body": "Depth comes from paper shadows and tonal sheet shades. No blur, no translucency on surfaces, no glow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** head every monster sheet, modal, drawer and dice tray with a black name bar and display type at 900.",
+      "**Do** keep the 3px signal strike exclusive to monster name bars.",
+      "**Do** set HP, round, roll and budget numbers in tabular numerals at the largest size in their region.",
+      "**Do** express HP state only through ink, Bloodied Amber and Last Stand Red, in both text and track.",
+      "**Do** divide rows with 1px hairlines and keep corners between 3px and 8px.",
+      "**Do** keep the masthead ink in both themes.",
+      "**Do** grow touch targets to 40px or more on coarse pointers."
+    ],
+    "donts": [
+      "**Don't** fill non-interactive surfaces, headings or decorative shapes with signal orange.",
+      "**Don't** set display type in uppercase or use the serif for interface labels.",
+      "**Don't** use amber or red for anything other than HP state and destructive actions.",
+      "**Don't** replace the paper shadows with blur, glass, or glow.",
+      "**Don't** turn sheets into neutral grey dashboard cards or move stat blocks behind a list."
+    ]
+  }
+}

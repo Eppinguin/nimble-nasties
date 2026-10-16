@@ -1,0 +1,257 @@
+/* ---------- Stat block: printed like the book ----------
+ * Run-in names, traits before actions, the roll floated into the text so a
+ * three-line book entry stays three lines here. */
+.statblock {
+  padding: 2px 14px 14px;
+  border-top: 1px solid var(--rule-strong);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.statblock strong {
+  font-family: var(--font-display);
+  font-size: 16.5px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.sb-traits {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sb-instructions {
+  padding: 9px 0 1px;
+  color: var(--ink-2);
+  font-style: italic;
+}
+.sb-action {
+  display: flow-root;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.sb-action > p {
+  min-height: 32px;
+  padding-top: 4px;
+}
+.sb-action .action-roll-group {
+  float: right;
+  margin: 0 0 4px 10px;
+}
+.statblock > .sb-actions:last-child > .sb-action:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.range {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.sb-phase {
+  margin-top: 8px;
+  padding: 6px 8px;
+  margin-inline: -8px;
+  border-radius: 4px;
+  color: var(--ink-2);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+.sb-phase strong {
+  margin-right: 2px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.sb-bloodied strong {
+  color: var(--bloodied);
+}
+.sb-laststand strong {
+  color: var(--laststand);
+}
+/* A creature in the lane is in this state right now: the rule is live. */
+.sb-bloodied[data-live='true'] {
+  background: color-mix(in srgb, var(--bloodied-fill) 16%, var(--sheet));
+  color: var(--ink);
+}
+.sb-laststand[data-live='true'] {
+  background: color-mix(in srgb, var(--laststand-fill) 13%, var(--sheet));
+  color: var(--ink);
+}
+.sb-phase[data-live='true'] strong::after {
+  content: ' · now';
+}
+
+.action-roll-group {
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.roll-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+  padding: 0 10px;
+  background: var(--signal);
+  color: var(--on-signal);
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: background-color 0.12s;
+}
+.roll-pill:hover {
+  background: var(--signal-hover);
+}
+.roll-pill:active {
+  background: var(--signal);
+}
+/* The group clips its children to the rounded edge, so focus draws inside. */
+.action-roll-group > button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -4px;
+  border-radius: 4px;
+}
+.action-roll-group > .roll-pill:focus-visible {
+  outline-color: var(--on-signal);
+}
+.edge-badge {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--sheet);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  animation: stamp 0.25s var(--ease-out);
+}
+.edge-btn {
+  min-width: 36px;
+  height: 100%;
+  padding: 0 6px;
+  background: var(--sheet-2);
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition:
+    background-color 0.12s,
+    color 0.12s;
+}
+.edge-dis {
+  border-right: 1px solid var(--rule-strong);
+}
+.edge-adv {
+  border-left: 1px solid var(--rule-strong);
+}
+.edge-dis:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--laststand) 14%, var(--sheet-2));
+  color: var(--laststand);
+}
+.edge-adv:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--easy) 16%, var(--sheet-2));
+  color: var(--easy);
+}
+.edge-btn:active:not(:disabled) {
+  transform: none;
+  filter: brightness(0.95);
+}
+/* The side that's winning lights up, so the net stack reads at a glance. */
+.action-roll-group[data-edge='adv'] .edge-adv {
+  background: var(--easy);
+  color: var(--sheet);
+}
+.action-roll-group[data-edge='dis'] .edge-dis {
+  background: var(--laststand);
+  color: var(--sheet);
+}
+.action-roll-group[data-edge='adv'] {
+  box-shadow: inset 0 0 0 1px var(--easy);
+}
+.action-roll-group[data-edge='dis'] {
+  box-shadow: inset 0 0 0 1px var(--laststand);
+}
+.inline-roll {
+  display: inline;
+  padding: 0 3px;
+  margin: 0 1px;
+  border-radius: 3px;
+  background: var(--signal-wash);
+  color: var(--signal-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  vertical-align: baseline;
+}
+.inline-roll:hover {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+.inline-summon {
+  display: inline;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 1px 2px 1px 4px;
+  margin: 0 1px;
+  border-radius: 3px;
+  background: var(--signal-wash);
+  color: var(--signal-text);
+  font-weight: 700;
+  font-style: normal;
+  text-align: start;
+  vertical-align: baseline;
+  transition:
+    background-color 0.12s,
+    color 0.12s;
+}
+.inline-summon b {
+  display: inline-block;
+  min-width: 0;
+  margin-left: 5px;
+  padding: 0 4px;
+  font-size: 12px;
+  vertical-align: 1px;
+}
+.inline-summon:hover {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+.summon-tail {
+  white-space: nowrap;
+}
+.source-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.source-line a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}

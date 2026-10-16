@@ -1,0 +1,198 @@
+/* ---------- Combat strip ---------- */
+.main-pane {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.combat-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 60px;
+  padding: 0 16px;
+  background: var(--sheet);
+  border-bottom: 1px solid var(--rule-strong);
+  flex-shrink: 0;
+}
+.round-control {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.round-control span {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.round-control strong {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* A quiet step back beside the label: the round is the thing it moves. */
+.round-back {
+  align-self: center;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 36px;
+  margin: 0 -4px 0 -6px;
+  border-radius: 6px;
+  color: var(--ink-3);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.round-back:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+.acted-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 18px;
+  border-left: 1px solid var(--rule);
+  height: 32px;
+}
+.acted-status strong {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.acted-status > span:last-child {
+  color: var(--ink-3);
+  font-size: 15px;
+}
+.acted-meter {
+  position: relative;
+  width: 72px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.acted-meter span {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+.next-round {
+  margin-left: 2px;
+}
+/* Everyone has acted: the turn of the round is the obvious next move. */
+.combat-toolbar:has(.acted-status[data-done='true']) .next-round {
+  box-shadow: 0 0 0 4px var(--signal-wash);
+  animation: nudge 2.4s var(--ease-out) infinite;
+}
+@keyframes nudge {
+  0%,
+  70%,
+  100% {
+    box-shadow: 0 0 0 4px var(--signal-wash);
+  }
+  35% {
+    box-shadow: 0 0 0 7px var(--signal-wash);
+  }
+}
+
+.roll-trigger {
+  margin-left: auto;
+  gap: 8px;
+  min-width: 0;
+  max-width: 46%;
+}
+/* Undo / redo: one quiet segmented pair, its tooltip names the step it takes back. */
+.history-controls {
+  margin-left: auto;
+  display: flex;
+  flex-shrink: 0;
+  height: 40px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--sheet);
+  overflow: hidden;
+}
+.history-controls + .roll-trigger {
+  margin-left: 0;
+}
+.history-controls button {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  color: var(--ink-2);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.history-controls button + button {
+  border-left: 1px solid var(--rule);
+}
+.history-controls button:active:not(:disabled) {
+  background: var(--sheet-3);
+}
+.history-controls button:disabled {
+  opacity: 1;
+  color: var(--rule-strong);
+  cursor: default;
+}
+.history-controls button:focus-visible {
+  outline-offset: -3px;
+  border-radius: 5px;
+}
+/* Hover only where a pointer hovers, so a tapped control doesn't stay lit on tablets. */
+@media (hover: hover) {
+  .round-back:hover:not(:disabled) {
+    background: var(--sheet-3);
+    color: var(--ink);
+  }
+  .history-controls button:hover:not(:disabled) {
+    background: var(--sheet-2);
+    color: var(--ink);
+  }
+}
+.roll-trigger .recent-roll-label {
+  color: var(--ink-2);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.roll-total {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+}
+.roll-trigger[data-roll-status='critical'] {
+  border-color: var(--signal-line);
+  background: var(--signal-wash);
+}
+.roll-trigger[data-roll-status='critical'] .roll-total {
+  color: var(--signal-text);
+}
+.roll-trigger[data-roll-status='miss'] .roll-total {
+  color: var(--ink-3);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.edge-help {
+  margin: 6px 14px 12px;
+  color: var(--ink-3);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.edge-help b {
+  color: var(--ink-2);
+}

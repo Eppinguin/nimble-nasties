@@ -1,0 +1,306 @@
+/* Library open beside the board: the combat strip's right end (latest roll,
+ * Dice) and the dice tray step left of the drawer instead of sitting under it. */
+@media (min-width: 791px) {
+  .app-shell:has(.add-drawer) .combat-toolbar {
+    padding-right: 406px;
+  }
+  .app-shell:has(.add-drawer) .rolls-panel {
+    right: 406px;
+  }
+}
+
+/* ---------- Medium widths ---------- */
+@media (max-width: 1100px) {
+  .difficulty-shortcut small {
+    display: none;
+  }
+  .header-rules span {
+    display: none;
+  }
+  .monster-lane {
+    flex-basis: clamp(320px, calc((100vw - 60px) / 3), 380px);
+  }
+}
+
+/* ---------- Phones & narrow tablets ---------- */
+@media (max-width: 790px) {
+  /* Full-width lanes already peek at the next one; keep the scroll fade in the gutter. */
+  .board-frame::before,
+  .board-frame::after {
+    width: 14px;
+  }
+  .topbar {
+    height: 56px;
+    gap: 8px;
+    padding: 0 8px 0 10px;
+  }
+  .topbar-left {
+    gap: 8px;
+  }
+  .header-brand {
+    align-self: center;
+  }
+  .header-logo img {
+    height: 42px;
+    width: 42px;
+    margin: 0;
+    border-radius: 10px;
+    filter: none;
+  }
+  .header-divider,
+  .difficulty-shortcut {
+    display: none;
+  }
+  .encounter-switch {
+    height: 40px;
+    padding: 0 6px 0 10px;
+  }
+  .switch-content strong {
+    font-size: 18px;
+  }
+  .app-header .desktop-add-trigger {
+    padding: 0 12px;
+  }
+  .header-rules {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .combat-toolbar {
+    gap: 12px;
+    height: 56px;
+    padding: 0 10px;
+  }
+  .round-control strong {
+    font-size: 30px;
+  }
+  .acted-status {
+    padding-left: 12px;
+  }
+  .acted-meter,
+  .acted-status > span:last-child {
+    display: none;
+  }
+  .roll-trigger {
+    max-width: none;
+    padding: 0 12px;
+  }
+
+  .roll-trigger .recent-roll-label {
+    display: none;
+  }
+  .combat-toolbar .next-round svg {
+    display: none;
+  }
+  .support-banner {
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 6px 10px 12px;
+  }
+  .support-banner > svg {
+    display: none;
+  }
+  .support-banner p {
+    font-size: 14px;
+  }
+  .support-banner small {
+    font-size: 12px;
+  }
+  .support-cta {
+    display: none;
+  }
+  .board-nav {
+    display: none;
+  }
+
+  .run-board {
+    gap: 10px;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 10px;
+  }
+  .monster-lane {
+    flex-basis: calc(100vw - 34px);
+    scroll-snap-align: start;
+  }
+  .sidebar.add-drawer {
+    width: 100vw;
+  }
+  .rolls-panel {
+    position: fixed;
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    max-height: 70dvh;
+  }
+  /* The docked tray owns the bottom edge; toasts drop in under the masthead instead. */
+  body:has(.rolls-panel) .toast {
+    top: 64px;
+    bottom: auto;
+  }
+  .encounter-picker {
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    top: 62px;
+    width: auto;
+    max-width: none;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .party-quick {
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+  }
+  .party-table-row,
+  .party-roster-head {
+    grid-template-columns: minmax(0, 1fr) 140px 40px;
+  }
+  .modal {
+    padding: 0 16px 16px;
+  }
+  .modal-head {
+    margin: 0 -16px 14px;
+    padding-left: 16px;
+  }
+}
+@media (max-width: 560px) {
+  .history-controls .history-redo {
+    display: none;
+  }
+  .history-controls button + button {
+    border-left: 0;
+  }
+}
+@media (max-width: 400px) {
+  .party-quick {
+    grid-template-columns: 1fr;
+  }
+  .app-header .desktop-add-trigger {
+    width: 42px;
+    padding: 0;
+    font-size: 0;
+    gap: 0;
+  }
+  .acted-status {
+    display: none;
+  }
+}
+
+/* ---------- Touch: tablets at the table ---------- */
+@media (pointer: coarse) {
+  .turn-box {
+    width: 40px;
+    height: 40px;
+  }
+  .horde-token {
+    width: 42px;
+    height: 42px;
+  }
+  .pack-hit,
+  .pack-more,
+  .horde-move-targets button,
+  .pack-menu button {
+    height: 40px;
+  }
+  .pack-more {
+    width: 40px;
+  }
+  .pack-name {
+    height: 40px;
+  }
+  .pack-log-undo {
+    width: 40px;
+    height: 36px;
+  }
+  .round-back {
+    width: 40px;
+    height: 42px;
+    margin-inline: -8px -2px;
+  }
+  .history-controls {
+    height: 44px;
+  }
+  .history-controls button {
+    width: 46px;
+  }
+  .toast-undo {
+    height: 40px;
+  }
+  .creature-row {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    padding-block: 6px 8px;
+  }
+  .condition-trigger {
+    width: 40px;
+    height: 38px;
+  }
+  .row-menu {
+    display: none;
+  }
+  .hp-command input {
+    height: 44px;
+  }
+  .action-roll-group {
+    height: 40px;
+  }
+  .sb-action > p {
+    min-height: 40px;
+    padding-top: 8px;
+  }
+  .edge-btn {
+    min-width: 42px;
+  }
+  .lane-grip,
+  .lane-remove {
+    width: 40px;
+    height: 40px;
+  }
+  .condition-chip,
+  .hp-state {
+    height: 28px;
+  }
+  .condition-picker > button {
+    height: 40px;
+  }
+  .encounter-row-menu > button {
+    height: 44px;
+  }
+  .creature-name {
+    height: 38px;
+  }
+  .roster-toggle,
+  .add-copy {
+    height: 40px;
+  }
+  .hp-command input:hover,
+  .creature-name:hover {
+    border-color: var(--rule);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+@media print {
+  .app-header,
+  .combat-toolbar,
+  .lane-tools,
+  .creature-tools,
+  .lane-actions {
+    display: none;
+  }
+  body {
+    overflow: visible;
+  }
+}

@@ -1,0 +1,264 @@
+/* ---------- Dice tray ---------- */
+.rolls-panel {
+  position: absolute;
+  top: 66px;
+  right: 16px;
+  z-index: 45;
+  width: 360px;
+  max-height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: var(--sheet);
+  box-shadow: var(--shadow-pop);
+  overflow: hidden;
+  animation: pop-in 0.2s var(--ease-out);
+}
+.rolls-panel > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 8px 0 16px;
+  background: var(--bar);
+  color: var(--bar-text);
+}
+.rolls-panel > header strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+}
+.rolls-panel > header .icon-btn {
+  color: var(--bar-soft);
+}
+.rolls-panel > header .icon-btn:hover {
+  background: var(--bar-2);
+  color: var(--bar-text);
+}
+.roll-controls {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px 4px;
+}
+.roll-controls .action-roll-group {
+  height: 42px;
+}
+.roll-controls input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--sheet-2);
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.roll-controls input:focus {
+  border-color: var(--signal-line);
+  outline: none;
+  background: var(--sheet);
+}
+.roll-history {
+  flex: 1;
+  overflow-y: auto;
+  border-top: 1px solid var(--rule);
+}
+.roll-history > p {
+  padding: 20px 16px;
+  color: var(--ink-3);
+}
+.roll-history > ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.roll-entry {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 11px 16px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.roll-entry:first-child {
+  background: var(--sheet-2);
+}
+.roll-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  padding-top: 1px;
+}
+.roll-result strong {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.roll-entry:first-child .roll-result strong {
+  font-size: 36px;
+}
+.roll-result span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.roll-entry[data-roll-status='critical'] .roll-result {
+  color: var(--signal-text);
+}
+.roll-entry[data-roll-status='miss'] .roll-result {
+  color: var(--ink-3);
+}
+.roll-detail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.roll-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.roll-head b {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.roll-edge-tag {
+  flex: none;
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  color: var(--ink-2);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.roll-notation {
+  flex: none;
+  margin-left: auto;
+  padding-left: 4px;
+  color: var(--ink-3);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.roll-breakdown {
+  color: var(--ink-3);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dice faces: one small sheet tile per die, in the order they were rolled. */
+.roll-dice-faces {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 4px;
+}
+.roll-part {
+  display: contents;
+}
+.die {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 5px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--sheet);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* The primary die decides miss and crit, so it carries the heavier ink edge. */
+.die.primary {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.die.primary.max,
+.die.exploded {
+  border-color: var(--signal-text);
+  background: var(--signal-wash);
+  color: var(--signal-text);
+}
+.die.primary.max {
+  box-shadow: inset 0 0 0 1px var(--signal-text);
+}
+.die.dropped,
+.die.missed {
+  border-style: dashed;
+  background: transparent;
+  color: var(--ink-3);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.die.primary.missed {
+  border-color: var(--ink-3);
+  box-shadow: none;
+}
+.die-op,
+.die-mod {
+  color: var(--ink-2);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.die-op {
+  margin: 0 1px;
+  color: var(--ink-3);
+}
+.die-mod.crit-only {
+  color: var(--signal-text);
+}
+.die-size {
+  margin-right: 1px;
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* The newest roll's dice land one after another, like the turn-box stamp. */
+.roll-entry:first-child .die {
+  animation: die-land 0.3s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+@keyframes die-land {
+  0% {
+    transform: translateY(-5px) rotate(-10deg) scale(1.2);
+  }
+  100% {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .roll-entry:first-child .die {
+    animation: none;
+  }
+}

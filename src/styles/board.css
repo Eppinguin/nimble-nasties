@@ -1,0 +1,265 @@
+/* ---------- Board ---------- */
+.board-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.board-frame::before,
+.board-frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 6;
+  width: 40px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.board-frame::before {
+  left: 0;
+  background: linear-gradient(to right, var(--ground), transparent);
+}
+.board-frame::after {
+  right: 0;
+  background: linear-gradient(to left, var(--ground), transparent);
+}
+.board-frame[data-left='true']::before,
+.board-frame[data-right='true']::after {
+  opacity: 1;
+}
+.board-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 64px;
+  margin-top: -32px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--sheet);
+  box-shadow: var(--shadow-pop);
+  opacity: 0.88;
+  transition:
+    opacity 0.15s,
+    transform 0.15s var(--ease-out);
+}
+.board-nav:hover {
+  opacity: 1;
+}
+.board-nav.prev {
+  left: 6px;
+}
+.board-nav.next {
+  right: 6px;
+}
+.board-nav.prev:hover {
+  transform: translateX(-2px);
+}
+.board-nav.next:hover {
+  transform: translateX(2px);
+}
+.run-board {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  scrollbar-width: auto;
+  scrollbar-color: var(--rule-strong) transparent;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-padding-inline: 16px;
+  overscroll-behavior-x: contain;
+}
+/* A sheet is only as tall as its monster; a long one stops at the board and scrolls inside. */
+.monster-lane {
+  flex: 0 0 clamp(330px, calc((100vw - 74px) / 4), 410px);
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--sheet);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sheet);
+  overflow: hidden;
+  transition:
+    opacity 0.2s,
+    box-shadow 0.3s var(--ease-out),
+    transform 0.2s var(--ease-out);
+}
+/* Everyone in the block has acted: the black name bar lifts off to bare parchment, the orange
+ * strike becomes a plain rule and the sheet lies flat. Creature rows stay at full strength for
+ * damage; the stat block's ink softens and its dice turn to the quiet "already acted" pill. */
+.monster-lane[data-spent] {
+  box-shadow: 0 0 0 1px var(--rule-strong);
+}
+.monster-lane[data-spent] .lane-header {
+  --bar: var(--sheet-3);
+  --bar-2: var(--rule);
+  --bar-text: var(--ink-2);
+  --bar-soft: var(--ink-3);
+  border-bottom-color: var(--rule-strong);
+}
+.monster-lane[data-spent] .lane-remove:hover {
+  color: var(--laststand);
+}
+.monster-lane[data-spent] .stat-armor,
+.monster-lane[data-spent] .stat-armor svg,
+.monster-lane[data-spent] .statline .kind-tag {
+  color: var(--ink-3);
+}
+.monster-lane[data-spent] .turn-box[aria-pressed='true'] {
+  background: var(--ink-3);
+  border-color: var(--ink-3);
+}
+.monster-lane[data-spent] .statblock {
+  --ink: var(--ink-2);
+  --ink-2: var(--ink-3);
+}
+.monster-lane.being-dragged {
+  opacity: 0.35;
+}
+
+/* The name bar: the GMG's black title band, with the logo's orange strike underneath. */
+.lane-header {
+  flex-shrink: 0;
+  padding: 9px 8px 8px 14px;
+  background: var(--bar);
+  color: var(--bar-text);
+  border-bottom: 3px solid var(--signal);
+}
+.lane-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.lane-title h2 {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+  overflow-wrap: anywhere;
+  padding-top: 3px;
+}
+.lane-tools {
+  display: flex;
+  gap: 0;
+  margin: -3px 0 -3px 0;
+}
+.lane-grip,
+.lane-remove {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--bar-soft);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.lane-grip {
+  cursor: grab;
+}
+.lane-grip:active {
+  cursor: grabbing;
+}
+.lane-grip:hover,
+.lane-remove:hover {
+  background: var(--bar-2);
+  color: var(--bar-text);
+}
+.lane-remove:hover {
+  color: #ff8a7a;
+}
+
+.statline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 12px;
+  margin-top: 5px;
+  padding-right: 6px;
+  min-width: 0;
+}
+.stat {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.stat small {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--bar-soft);
+}
+.stat b {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.stat svg {
+  color: var(--bar-soft);
+}
+.stat-armor,
+.stat-armor svg {
+  color: #ffb37f;
+}
+.stat-saves b {
+  font-size: 15px;
+  letter-spacing: 0.03em;
+}
+.statline-family {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--bar-soft);
+  font-size: 14px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kind-tag {
+  flex-shrink: 0;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  line-height: 1.2;
+}
+.statline .kind-tag {
+  color: #ffb37f;
+  margin-right: -4px;
+}
+.kind-legendary {
+  color: var(--signal-text);
+}
+
+.lane-scroll {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.lane-scroll:focus-visible {
+  outline-offset: -3px;
+}

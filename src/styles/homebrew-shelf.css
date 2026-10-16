@@ -1,0 +1,403 @@
+/* Homebrew shelf: the library's second tab, your own stat blocks with their tools on the row. */
+.library-tabs {
+  display: flex;
+  gap: 2px;
+  margin: 14px 18px 10px;
+  padding: 3px;
+  border-radius: 7px;
+  background: var(--sheet-3);
+  flex-shrink: 0;
+}
+.library-tabs button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  border-radius: 5px;
+  color: var(--ink-2);
+  font: 700 15px var(--font-ui);
+}
+.library-tabs button:hover {
+  color: var(--ink);
+}
+.library-tabs button[aria-selected='true'] {
+  background: var(--segment-on);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.14);
+}
+.library-tabs .count {
+  min-width: 22px;
+  padding: 0 5px;
+  border-radius: 3px;
+  background: var(--sheet-2);
+  color: var(--ink-3);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.library-tabs button[aria-selected='true'] .count {
+  background: var(--ink);
+  color: var(--sheet);
+}
+.library-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.brew-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px 6px;
+  flex-shrink: 0;
+  min-height: 54px;
+}
+.brew-select {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.brew-select span {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.brew-select select {
+  width: 100%;
+  height: 40px;
+  padding: 0 28px 0 52px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--sheet) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238a7c6c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 8px center;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+.brew-select:nth-child(2) select {
+  padding-left: 60px;
+}
+.brew-select select:hover {
+  border-color: var(--ink-3);
+}
+.brew-select select:focus-visible {
+  border-color: var(--signal-line);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+}
+.brew-select-mode,
+.brew-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 700;
+}
+.brew-select-mode:hover {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.brew-selecting {
+  justify-content: space-between;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+.brew-selecting > span {
+  margin-right: auto;
+}
+.brew-selecting b {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.brew-selecting .text-btn {
+  margin-right: 0;
+}
+.brew-done {
+  background: var(--ink);
+  color: var(--sheet);
+  padding: 0 14px;
+}
+.brew-done:hover {
+  background: var(--ink-2);
+}
+
+.brew-group {
+  position: sticky;
+  top: -4px;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 -10px;
+  padding: 12px 20px 5px;
+  background: var(--sheet);
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-2);
+  font: 800 12px/1.1 var(--font-ui);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.brew-group span {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.brew-group ~ .brew-group {
+  margin-top: 6px;
+}
+.brew-row {
+  gap: 0;
+  padding-right: 0;
+}
+.brew-row .lib-main {
+  padding-right: 4px;
+}
+.brew-row .lib-text strong {
+  font-weight: 800;
+}
+.brew-row .lib-text {
+  flex: 1;
+}
+.brew-row .lib-text > span {
+  flex-wrap: nowrap;
+  gap: 0;
+  min-width: 0;
+  white-space: nowrap;
+}
+.brew-row .lib-text > span > * + *::before {
+  content: '·';
+  margin: 0 6px;
+  color: var(--rule-strong);
+  font-style: normal;
+}
+.brew-row .lib-text > span > .kind-tag {
+  margin-left: 6px;
+}
+.brew-row .lib-text > span > .kind-tag::before,
+.brew-row .lib-text > span > .kind-tag + *::before {
+  content: none;
+}
+.brew-row .lib-text > span > .kind-tag + * {
+  margin-left: 6px;
+}
+.brew-family {
+  flex: 0 1 auto;
+  min-width: 6ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brew-origin {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 5ch;
+}
+.brew-origin:not(:has(.brew-author)) {
+  flex: none;
+}
+.brew-author {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+.brew-row .kind-tag,
+.brew-uses {
+  flex: none;
+}
+.brew-uses {
+  color: var(--ink-2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.brew-tool {
+  width: 34px;
+  height: 40px;
+  color: var(--ink-3);
+}
+.brew-tool:hover,
+.brew-tool[aria-expanded='true'] {
+  background: var(--sheet-3);
+  color: var(--ink);
+}
+.brew-row .lib-add {
+  margin-left: 2px;
+}
+.brew-row.is-open {
+  background: var(--sheet-2);
+  border-radius: 6px 6px 0 0;
+}
+.brew-row.is-fresh {
+  animation: summon-in 1.3s var(--ease-out);
+}
+.brew-row.is-fresh .lib-level {
+  animation: stamp 0.3s var(--ease-out);
+}
+.brew-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 4px;
+  padding: 2px 8px 10px 56px;
+  border-radius: 0 0 6px 6px;
+  background: var(--sheet-2);
+  animation: pop-in 0.16s var(--ease-out);
+}
+.brew-menu button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  background: var(--sheet);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+.brew-menu button:hover {
+  border-color: var(--ink);
+}
+.brew-menu svg {
+  color: var(--ink-2);
+}
+.brew-menu .brew-delete {
+  color: var(--laststand);
+}
+.brew-delete small,
+.brew-bulk .danger small {
+  margin-left: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.brew-menu .brew-delete:has(small) {
+  grid-column: 1 / -1;
+}
+.brew-menu .brew-delete svg {
+  color: currentColor;
+}
+.brew-menu .brew-delete:hover {
+  border-color: var(--laststand);
+}
+
+.brew-list.is-selecting .library-item {
+  cursor: default;
+}
+.brew-pick {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.brew-pick input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0 -2px 0 4px;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.brew-pick:has(input:focus-visible) {
+  outline: 2px solid var(--signal-line);
+  outline-offset: -2px;
+}
+.brew-row.is-picked {
+  background: var(--sheet-2);
+}
+.brew-bulk {
+  gap: 6px;
+}
+.brew-bulk button {
+  margin-left: 0;
+}
+.brew-bulk .outline,
+.brew-bulk .solid {
+  height: 40px;
+  padding: 0 12px;
+  color: var(--ink);
+}
+.brew-bulk .solid {
+  margin-left: auto;
+  color: var(--on-signal);
+}
+.brew-bulk .outline.danger {
+  margin-right: 0;
+  color: var(--laststand);
+}
+.brew-bulk button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.brew-empty {
+  flex: 1;
+  padding: 34px 26px;
+}
+.brew-empty h3 {
+  max-width: 15ch;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.brew-empty p {
+  max-width: 36ch;
+  margin: 10px 0 20px;
+  color: var(--ink-2);
+  font-size: 16px;
+  line-height: 1.45;
+}
+.brew-empty div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (pointer: coarse) {
+  .library-tabs button {
+    height: 42px;
+  }
+  .brew-tool {
+    width: 40px;
+    height: 44px;
+  }
+  .brew-menu button {
+    height: 40px;
+  }
+  .brew-pick input {
+    width: 22px;
+    height: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brew-row.is-fresh,
+  .brew-row.is-fresh .lib-level,
+  .brew-menu {
+    animation: none;
+  }
+}
